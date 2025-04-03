@@ -1,0 +1,66 @@
+/* Base Theming */
+body {
+    font-family: 'Comic Sans MS', cursive;
+    background-color: #f0f8ff; /* Light blue */
+    margin: 0;
+    padding: 20px;
+    transition: background 0.3s;
+  }
+  
+  .chat-container {
+    max-width: 600px;
+    margin: 0 auto;
+    border: 3px solid #ffb6c1; /* Light pink */
+    border-radius: 15px;
+    padding: 15px;
+    background: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Pet Avatar */
+  .pet-avatar {
+    text-align: center;
+    margin: 10px 0;
+  }
+  
+  .pet-avatar img {
+    width: 100px;
+    height: 100px;
+    transition: transform 0.3s;
+  }
+  
+  /* Speech Bubbles */
+  .message {
+    margin: 10px;
+    padding: 10px 15px;
+    border-radius: 18px;
+    max-width: 70%;
+  }
+  
+  .user-message {
+    background: #e3f2fd;
+    margin-left: auto;
+    border-bottom-right-radius: 0;
+  }
+  
+  .bot-message {
+    background: #ffecb3;
+    margin-right: auto;
+    border-bottom-left-radius: 0;
+  }
+  
+  /* Photo Upload */
+  .upload-btn {
+    background: #4CAF50;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  /* Theme Toggle */
+  .theme-toggle {
+    display: flex;
+    gap: 10px;
+  }

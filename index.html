@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🐾 Pet Training Assistant</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="chat-container">
+    <header>
+      <h1>AI Pet Trainer</h1>
+      <div class="theme-toggle">
+        <button id="lightMode">☀️</button>
+        <button id="darkMode">🌙</button>
+      </div>
+    </header>
+
+    <div class="pet-avatar" id="petAvatar">
+      <img src="dog-default.png" alt="Pet Avatar" id="avatarImage">
+    </div>
+
+    <div class="chatbox" id="chatbox"></div>
+
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Ask about pet training...">
+      <button id="sendButton">Send</button>
+      <label for="photoUpload" class="upload-btn">📸 Upload Photo</label>
+      <input type="file" id="photoUpload" accept="image/*" style="display:none;">
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

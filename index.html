@@ -19,14 +19,14 @@
 
     <!-- Animated Pet Avatar -->
     <div class="pet-avatar">
-      <img src="assets/dog-neutral.png" alt="Pet" id="petAvatar" class="bounce">
+      <img src="assets/happy-dog.png" alt="Pet" id="petAvatar" class="bounce">
       <div class="pet-status" id="petStatus">Ready to help!</div>
     </div>
 
     <!-- Chat Container with Speech Bubbles -->
     <div class="chat-container" id="chatContainer">
       <div class="chat-welcome">
-        <p>Hi there! I'm your pet training assistant. Ask me about commands like <strong>sit</strong>, <strong>stay</strong>, or <strong>potty training</strong>!</p>
+        <p>Hi there! I'm your pet training assistant. Ask me about commands like <strong>sit</strong>, <strong>stay</strong>, or <strong>any other training</strong>!</p>
       </div>
     </div>
 
@@ -35,6 +35,8 @@
       <div class="quick-actions">
         <button class="quick-btn" data-cmd="sit">Teach Sit</button>
         <button class="quick-btn" data-cmd="stay">Teach Stay</button>
+        <button class="quick-btn" data-cmd="schedule">Prepare schedule</button>
+        <button class="quick-btn" data-cmd="diet">Suggest Diet</button>
         <label class="upload-label">
           <input type="file" id="photoUpload" accept="image/*">
           <i class="fas fa-camera"></i> Upload Photo
@@ -42,7 +44,7 @@
       </div>
       <div class="text-input">
         <input type="text" id="userInput" placeholder="Ask about pet training...">
-        <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+        <button id="sendBtn"><i class="fas fa-paw"></i></button>
       </div>
     </div>
   </div>

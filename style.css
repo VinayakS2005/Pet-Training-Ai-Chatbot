@@ -17,6 +17,26 @@
 }
 
 /* Base Styles */
+/* Full-screen background */
+body {
+  background-image: url('assets/background.jpg'); /* Add your image path */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.app-container {
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+  backdrop-filter: blur(5px); /* Optional: adds a slight blur to the background */
+  margin: 20px auto;
+}
+
+/* Dark theme adjustment */
+[data-theme="dark"] .app-container {
+  background-color: rgba(45, 52, 54, 0.9); /* Semi-transparent dark */
+}
 * {
   box-sizing: border-box;
   margin: 0;

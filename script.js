@@ -1,99 +1,124 @@
 // DOM Elements
-const chatbox = document.getElementById('chatbox');
-const userInput = document.getElementById('userInput');
-const sendButton = document.getElementById('sendButton');
-const photoUpload = document.getElementById('photoUpload');
-const avatarImage = document.getElementById('avatarImage');
-const lightModeBtn = document.getElementById('lightMode');
-const darkModeBtn = document.getElementById('darkMode');
-
-// Pet Avatar Reactions
-const petReactions = {
-  happy: 'dog-happy.png',
-  confused: 'dog-confused.png',
-  thinking: 'dog-thinking.gif'
+const elements = {
+  chatContainer: document.getElementById('chatContainer'),
+  userInput: document.getElementById('userInput'),
+  sendBtn: document.getElementById('sendBtn'),
+  photoUpload: document.getElementById('photoUpload'),
+  petAvatar: document.getElementById('petAvatar'),
+  petStatus: document.getElementById('petStatus'),
+  themeToggle: document.getElementById('themeToggle')
 };
 
-// Themes
-const themes = {
-  light: {
-    bg: '#f0f8ff',
-    container: 'white'
+// Pet Config
+const petConfig = {
+  reactions: {
+    neutral: { img: 'assets/dog-neutral.png', text: 'Ready to help!' },
+    happy: { img: 'assets/dog-happy.png', text: 'Good job! 🎉' },
+    thinking: { img: 'assets/dog-thinking.gif', text: 'Let me think...' },
+    confused: { img: 'assets/dog-confused.png', text: 'I didn\'t understand that' }
   },
-  dark: {
-    bg: '#2c3e50',
-    container: '#34495e'
+  sounds: {
+    bark: new Audio('assets/bark.mp3')
   }
 };
 
-// Set initial theme
-let currentTheme = 'light';
+// Knowledge Base
+const knowledgeBase = {
+  sit: "To teach <strong>sit</strong>: 1) Hold a treat near their nose. 2) Slowly move it up and back over their head. 3) As their bottom touches the ground, say \"Sit!\" and reward.",
+  stay: "For <strong>stay</strong>: 1) Have your dog sit. 2) Show your palm and say \"Stay\". 3) Take 1 step back, then return and reward. Gradually increase distance.",
+  potty: "Potty training: 1) Establish a routine. 2) Take them out after meals/waking. 3) Praise immediately when they go outside. 4) Clean accidents with enzyme cleaner.",
+  photo: "What a cute pet! For personalized tips: 1) Use high-value treats. 2) Keep sessions short (5-10 mins). 3) End on a positive note."
+};
 
-// Theme Toggle
-lightModeBtn.addEventListener('click', () => setTheme('light'));
-darkModeBtn.addEventListener('click', () => setTheme('dark'));
+// Initialize
+function init() {
+  // Event Listeners
+  elements.sendBtn.addEventListener('click', sendMessage);
+  elements.userInput.addEventListener('keypress', (e) => e.key === 'Enter' && sendMessage());
+  elements.photoUpload.addEventListener('change', handlePhotoUpload);
+  elements.themeToggle.addEventListener('click', toggleTheme);
+  
+  // Quick Actions
+  document.querySelectorAll('.quick-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      elements.userInput.value = `How to teach ${btn.dataset.cmd}?`;
+      sendMessage();
+    });
+  });
 
-function setTheme(theme) {
-  currentTheme = theme;
-  document.body.style.backgroundColor = themes[theme].bg;
-  document.querySelector('.chat-container').style.backgroundColor = themes[theme].container;
+  // Set initial pet state
+  setPetReaction('neutral');
 }
 
-// Photo Upload
-photoUpload.addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      addMessage("You uploaded a photo!", 'user');
-      setTimeout(() => {
-        setPetReaction('happy');
-        addMessage("What a cute pet! Here's a tip: Use treats for positive reinforcement.", 'bot');
-      }, 1000);
-    };
-    reader.readAsDataURL(file);
-  }
-});
-
-// Send Message
-sendButton.addEventListener('click', sendMessage);
-userInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') sendMessage();
-});
-
+// Core Functions
 function sendMessage() {
-  const message = userInput.value.trim();
-  if (message === '') return;
+  const message = elements.userInput.value.trim();
+  if (!message) return;
 
   addMessage(message, 'user');
-  userInput.value = '';
-
-  // Simulate bot thinking
+  elements.userInput.value = '';
   setPetReaction('thinking');
+
+  // Simulate AI processing
   setTimeout(() => {
-    const response = getBotResponse(message);
+    const response = generateResponse(message);
     addMessage(response, 'bot');
     setPetReaction('happy');
-  }, 1500);
+    petConfig.sounds.bark.play().catch(e => console.log("Audio blocked:", e));
+  }, 1000 + Math.random() * 2000); // Random delay for realism
 }
 
-// Bot Responses
-function getBotResponse(message) {
+function generateResponse(message) {
   const lowerMsg = message.toLowerCase();
-  if (lowerMsg.includes('sit')) return "To teach 'sit', hold a treat above their nose and move it back over their head...";
-  if (lowerMsg.includes('stay')) return "For 'stay', start with short durations and gradually increase distance...";
-  return "I can help with commands like 'sit', 'stay', and 'potty training'!";
+  if (lowerMsg.includes('sit')) return knowledgeBase.sit;
+  if (lowerMsg.includes('stay')) return knowledgeBase.stay;
+  if (lowerMsg.includes('potty') || lowerMsg.includes('toilet')) return knowledgeBase.potty;
+  return "I can help with: <strong>sit</strong>, <strong>stay</strong>, and <strong>potty training</strong>. Be specific with your question!";
 }
 
-// Helper Functions
+function handlePhotoUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    addMessage("[Uploaded Photo]", 'user');
+    setTimeout(() => {
+      addMessage(knowledgeBase.photo, 'bot');
+      setPetReaction('happy');
+    }, 1500);
+  };
+  reader.readAsDataURL(file);
+  e.target.value = ''; // Reset input
+}
+
+// UI Helpers
 function addMessage(text, sender) {
-  const messageDiv = document.createElement('div');
-  messageDiv.classList.add('message', `${sender}-message`);
-  messageDiv.textContent = text;
-  chatbox.appendChild(messageDiv);
-  chatbox.scrollTop = chatbox.scrollHeight;
+  const msgDiv = document.createElement('div');
+  msgDiv.className = `message ${sender}-message`;
+  msgDiv.innerHTML = text;
+  elements.chatContainer.appendChild(msgDiv);
+  elements.chatContainer.scrollTop = elements.chatContainer.scrollHeight;
 }
 
-function setPetReaction(reaction) {
-  avatarImage.src = petReactions[reaction];
+function setPetReaction(mood) {
+  const reaction = petConfig.reactions[mood] || petConfig.reactions.neutral;
+  elements.petAvatar.src = reaction.img;
+  elements.petStatus.textContent = reaction.text;
+  
+  // Special animations
+  if (mood === 'happy') {
+    elements.petAvatar.classList.add('bounce');
+    setTimeout(() => elements.petAvatar.classList.remove('bounce'), 2000);
+  }
 }
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  elements.themeToggle.innerHTML = newTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+}
+
+// Initialize the app
+init();

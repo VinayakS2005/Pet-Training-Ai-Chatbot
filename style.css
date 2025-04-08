@@ -1,66 +1,206 @@
-/* Base Theming */
+:root {
+  /* Light Theme */
+  --bg-color: #f5f7fa;
+  --container-color: #ffffff;
+  --text-color: #333;
+  --primary: #ff9a76;
+  --secondary: #a0e7e5;
+}
+
+[data-theme="dark"] {
+  /* Dark Theme */
+  --bg-color: #2d3436;
+  --container-color: #3e5151;
+  --text-color: #f5f7fa;
+  --primary: #ff7e5f;
+  --secondary: #4ecdc4;
+}
+
+/* Base Styles */
+/* Full-screen background */
 body {
-    font-family: 'Comic Sans MS', cursive;
-    background-color: #f0f8ff; /* Light blue */
-    margin: 0;
-    padding: 20px;
-    transition: background 0.3s;
-  }
-  
-  .chat-container {
-    max-width: 600px;
-    margin: 0 auto;
-    border: 3px solid #ffb6c1; /* Light pink */
-    border-radius: 15px;
-    padding: 15px;
-    background: white;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Pet Avatar */
-  .pet-avatar {
-    text-align: center;
-    margin: 10px 0;
-  }
-  
-  .pet-avatar img {
-    width: 100px;
-    height: 100px;
-    transition: transform 0.3s;
-  }
-  
-  /* Speech Bubbles */
-  .message {
-    margin: 10px;
-    padding: 10px 15px;
-    border-radius: 18px;
-    max-width: 70%;
-  }
-  
-  .user-message {
-    background: #e3f2fd;
-    margin-left: auto;
-    border-bottom-right-radius: 0;
-  }
-  
-  .bot-message {
-    background: #ffecb3;
-    margin-right: auto;
-    border-bottom-left-radius: 0;
-  }
-  
-  /* Photo Upload */
-  .upload-btn {
-    background: #4CAF50;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 10px;
-  }
-  
-  /* Theme Toggle */
-  .theme-toggle {
-    display: flex;
-    gap: 10px;
-  }
+  background-image: url('assets/background.jpg'); /* Add your image path */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.app-container {
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+  backdrop-filter: blur(5px); /* Optional: adds a slight blur to the background */
+  margin: 20px auto;
+}
+
+/* Dark theme adjustment */
+[data-theme="dark"] .app-container {
+  background-color: rgba(45, 52, 54, 0.9); /* Semi-transparent dark */
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: background 0.3s, color 0.3s;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  padding: 20px;
+}
+
+.app-container {
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  background-color: var(--container-color);
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+}
+
+.theme-switcher button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Pet Avatar */
+.pet-avatar {
+  text-align: center;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.pet-avatar img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  transition: all 0.3s;
+}
+
+.pet-avatar .pet-status {
+  font-size: 0.9rem;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.bounce {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Chat Container */
+.chat-container {
+  height: 400px;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: var(--container-color);
+}
+
+.chat-welcome {
+  background-color: rgba(160, 231, 229, 0.2);
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.message {
+  margin-bottom: 15px;
+  max-width: 80%;
+  padding: 12px 15px;
+  border-radius: 18px;
+  position: relative;
+}
+
+.user-message {
+  background-color: var(--primary);
+  color: white;
+  margin-left: auto;
+  border-bottom-right-radius: 5px;
+}
+
+.bot-message {
+  background-color: rgba(160, 231, 229, 0.3);
+  margin-right: auto;
+  border-bottom-left-radius: 5px;
+}
+
+/* Input Area */
+.input-area {
+  padding: 15px;
+  background-color: var(--container-color);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.quick-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.quick-btn, .upload-label {
+  padding: 8px 12px;
+  border-radius: 20px;
+  background-color: rgba(160, 231, 229, 0.3);
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.upload-label {
+  position: relative;
+}
+
+.upload-label input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.text-input {
+  display: flex;
+  gap: 10px;
+}
+
+.text-input input {
+  flex: 1;
+  padding: 12px 15px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+}
+
+.text-input button {
+  width: 50px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--primary);
+  color: white;
+  cursor: pointer;
+}

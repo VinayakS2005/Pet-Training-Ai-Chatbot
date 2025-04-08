@@ -1,32 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🐾 Pet Training Assistant</title>
+  <title>🐾 Pet Training Pro</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <div class="chat-container">
+  <div class="app-container">
+    <!-- Header with Theme Toggle -->
     <header>
-      <h1>AI Pet Trainer</h1>
-      <div class="theme-toggle">
-        <button id="lightMode">☀️</button>
-        <button id="darkMode">🌙</button>
+      <h1><i class="fas fa-paw"></i> AI Pet Trainer</h1>
+      <div class="theme-switcher">
+        <button id="themeToggle"><i class="fas fa-moon"></i></button>
       </div>
     </header>
 
-    <div class="pet-avatar" id="petAvatar">
-      <img src="dog-default.png" alt="Pet Avatar" id="avatarImage">
+    <!-- Animated Pet Avatar -->
+    <div class="pet-avatar">
+      <img src="assets/happy-dog.png" alt="Pet" id="petAvatar" class="bounce">
+      <div class="pet-status" id="petStatus">Ready to help!</div>
     </div>
 
-    <div class="chatbox" id="chatbox"></div>
+    <!-- Chat Container with Speech Bubbles -->
+    <div class="chat-container" id="chatContainer">
+      <div class="chat-welcome">
+        <p>Hi there! I'm your pet training assistant. Ask me about commands like <strong>sit</strong>, <strong>stay</strong>, or <strong>any other training</strong>!</p>
+      </div>
+    </div>
 
+    <!-- Input Area with Photo Upload -->
     <div class="input-area">
-      <input type="text" id="userInput" placeholder="Ask about pet training...">
-      <button id="sendButton">Send</button>
-      <label for="photoUpload" class="upload-btn">📸 Upload Photo</label>
-      <input type="file" id="photoUpload" accept="image/*" style="display:none;">
+      <div class="quick-actions">
+        <button class="quick-btn" data-cmd="sit">Teach Sit</button>
+        <button class="quick-btn" data-cmd="stay">Teach Stay</button>
+        <button class="quick-btn" data-cmd="schedule">Prepare schedule</button>
+        <button class="quick-btn" data-cmd="diet">Suggest Diet</button>
+        <label class="upload-label">
+          <input type="file" id="photoUpload" accept="image/*">
+          <i class="fas fa-camera"></i> Upload Photo
+        </label>
+      </div>
+      <div class="text-input">
+        <input type="text" id="userInput" placeholder="Ask about pet training...">
+        <button id="sendBtn"><i class="fas fa-paw"></i></button>
+      </div>
     </div>
     <div>
       <iframe src="https://huggingface.co/spaces/ciphr/ai_chatbot" width="600" height="400"></iframe>

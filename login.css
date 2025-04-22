@@ -144,7 +144,7 @@ button.ghost {
 
 .overlay {
     background: #ff416c;
-    background: linear-gradient(to right, #008ecf, #008ecf) no-repeat 0 0 / cover;
+    background: linear-gradient(to right, #00cf3e, #008ecf) no-repeat 0 0 / cover;
     color: #fff;
     position: relative;
     left: -100%;
@@ -210,3 +210,8 @@ button.ghost {
     transform: translateY(20%);
 }
 
+.message {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}

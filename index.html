@@ -1,58 +1,988 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🐾 Pet Training Pro</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawTron - AI Pet Training Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #FF6584;
+            --accent: #4DCCBD;
+            --dark: #2D3748;
+            --light: #F7FAFC;
+            --gray: #E2E8F0;
+            --dark-gray: #718096;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        .logo h1 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #5a52e0;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 8rem 5% 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
+        
+        .hero-content {
+            max-width: 50%;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            line-height: 1.2;
+        }
+        
+        .hero h2 span {
+            color: var(--primary);
+        }
+        
+        .hero p {
+            margin-bottom: 2rem;
+            color: var(--dark-gray);
+            font-size: 1.1rem;
+        }
+        
+        .hero-image {
+            width: 45%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s;
+        }
+        
+        .hero-image:hover img {
+            transform: scale(1.03);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 5rem 5%;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h3 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            color: var(--dark-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--gray);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            background-color: rgba(108, 99, 255, 0.1);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+        
+        .feature-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .feature-card p {
+            color: var(--dark-gray);
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 5rem 5%;
+            background-color: var(--light);
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .testimonial-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--dark-gray);
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .testimonial-author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .author-info h5 {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .author-info p {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 5% 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column ul li a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Chat Interface */
+        .chat-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(108, 99, 255, 0.3);
+            z-index: 100;
+            transition: all 0.3s;
+        }
+        
+        .chat-button:hover {
+            transform: scale(1.1);
+            background-color: #5a52e0;
+        }
+        
+        .chat-button img {
+            width: 30px;
+            height: 30px;
+        }
+        
+        .chat-window {
+            position: fixed;
+            bottom: 8rem;
+            right: 2rem;
+            width: 350px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
+        .chat-window.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--dark-gray);
+            z-index: 10;
+        }
+        
+        .chat {
+            height: 400px;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        
+        .user p {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            display: inline-block;
+            max-width: 80%;
+            float: right;
+            clear: both;
+            margin-bottom: 1rem;
+        }
+        
+        .model p {
+            background-color: var(--light);
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            display: inline-block;
+            max-width: 80%;
+            clear: both;
+            margin-bottom: 1rem;
+        }
+        
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid var(--primary);
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 10px 0;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error p {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            display: inline-block;
+            max-width: 80%;
+            clear: both;
+            margin-bottom: 1rem;
+        }
+        
+        .input-area {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid var(--gray);
+            background-color: white;
+        }
+        
+        .input-area input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--gray);
+            border-radius: 30px;
+            outline: none;
+            font-family: inherit;
+        }
+        
+        .input-area button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .input-area button:hover {
+            background-color: #5a52e0;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 6rem;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+                margin-bottom: 3rem;
+            }
+            
+            .hero-image {
+                width: 80%;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .hero-image {
+                width: 100%;
+            }
+            
+            .chat-window {
+                width: 300px;
+                right: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="app-container">
-    <!-- Header with Theme Toggle -->
-    <header>
-      <h1><i class="fas fa-paw"></i> AI Pet Trainer</h1>
-      <div class="theme-switcher">
-        <button id="themeToggle"><i class="fas fa-moon"></i></button>
-      </div>
-    </header>
-
-    <!-- Animated Pet Avatar -->
-    <div class="pet-avatar">
-      <img src="assets/happy-dog.png" alt="Pet" id="petAvatar" class="bounce">
-      <div class="pet-status" id="petStatus">Ready to help!</div>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="PawTron Logo">
+            <h1>PawTron</h1>
+        </div>
+        
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Features</a>
+            <a href="#">Training Programs</a>
+            <a href="#">Resources</a>
+            <a href="#">About</a>
+        </div>
+        
+        <div class="auth-buttons">
+            <button class="btn btn-outline">Login</button>
+            <button class="btn btn-primary">Sign Up</button>
+            <button class="btn btn-outline" id="logoutBtn" style="display: none;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Train Your Pet Smarter with <span>AI Assistance</span></h2>
+            <p>PawTron uses advanced artificial intelligence to provide personalized training tips, behavior analysis, and real-time guidance to help you build a stronger bond with your furry friend.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary">Get Started</button>
+                <button class="btn btn-outline">Learn More</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1498&q=80" alt="Happy dog with owner">
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features">
+        <div class="section-title">
+            <h3>Why Choose PawTron?</h3>
+            <p>Our AI-powered platform offers everything you need to train your pet effectively and build a lasting bond.</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h4>Smart Training Plans</h4>
+                <p>Get customized training programs based on your pet's breed, age, and personality traits.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h4>Real-time Assistance</h4>
+                <p>Chat with our AI assistant to get instant answers to your pet training questions.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h4>Progress Tracking</h4>
+                <p>Monitor your pet's improvement with detailed analytics and milestone tracking.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-paw"></i>
+                </div>
+                <h4>Behavior Analysis</h4>
+                <p>Upload videos of your pet to get AI-powered behavior assessments and recommendations.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h4>Expert Community</h4>
+                <p>Connect with professional trainers and other pet owners for support and advice.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h4>Mobile Friendly</h4>
+                <p>Access training tools and resources anytime, anywhere from your mobile device.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="section-title">
+            <h3>Success Stories</h3>
+            <p>Hear from pet owners who transformed their relationship with their pets using PawTron.</p>
+        </div>
+        
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"PawTron helped me train my hyperactive Labrador in just 3 weeks. The AI suggestions were spot on and easy to follow. I couldn't believe the results!"</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah J.">
+                    <div class="author-info">
+                        <h5>Sarah J.</h5>
+                        <p>Dog Owner</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">"As a first-time cat owner, I was overwhelmed. PawTron's personalized training plans made all the difference. My cat now responds to commands!"</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael T.">
+                    <div class="author-info">
+                        <h5>Michael T.</h5>
+                        <p>Cat Owner</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">"The behavior analysis feature helped me understand why my parrot was acting out. With PawTron's recommendations, we've never been happier together."</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emily R.">
+                    <div class="author-info">
+                        <h5>Emily R.</h5>
+                        <p>Bird Owner</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>PawTron</h4>
+                <p>The smartest way to train your pet with AI-powered assistance and expert guidance.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Training Programs</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Training Guides</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">GDPR</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 PawTron AI Pet Training Assistant. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Chat Interface -->
+    <div class="chat-button" id="chatButton">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111810.png" alt="Chat Icon">
     </div>
+    
+    <section class="chat-window" id="chatWindow">
+        <button class="close" id="closeChat">× close</button>
+        <div class="chat">
+            <div class="model">
+                <p>Hi there! I'm your AI Pet Training Assistant. How can I help you and your pet today?</p>
+            </div>
+        </div>
+        <div class="input-area">
+            <input placeholder="Ask me anything about pet training..." type="text" id="chatInput">
+            <button id="sendMessage">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </section>
 
-    <!-- Chat Container with Speech Bubbles -->
-    <div class="chat-container" id="chatContainer">
-      <div class="chat-welcome">
-        <p>Hi there! I'm your pet training assistant. Ask me about commands like <strong>sit</strong>, <strong>stay</strong>, or <strong>any other training</strong>!</p>
-      </div>
-    </div>
+    <script type="importmap">
+        {
+          "imports": {
+            "@google/generative-ai": "https://esm.run/@google/generative-ai"
+          }
+        }
+    </script>
+    
+    <script type="module">
+        import { GoogleGenerativeAI } from "@google/generative-ai";
 
-    <!-- Input Area with Photo Upload -->
-    <div class="input-area">
-      <div class="quick-actions">
-        <button class="quick-btn" data-cmd="sit">Teach Sit</button>
-        <button class="quick-btn" data-cmd="stay">Teach Stay</button>
-        <button class="quick-btn" data-cmd="schedule">Prepare schedule</button>
-        <button class="quick-btn" data-cmd="diet">Suggest Diet</button>
-        <label class="upload-label">
-          <input type="file" id="photoUpload" accept="image/*">
-          <i class="fas fa-camera"></i> Upload Photo
-        </label>
-      </div>
-      <div class="text-input">
-        <input type="text" id="userInput" placeholder="Ask about pet training...">
-        <button id="sendBtn"><i class="fas fa-paw"></i></button>
-      </div>
-    </div>
-    <div>
-      <iframe src="https://huggingface.co/spaces/ciphr/ai_chatbot" width="600" height="400"></iframe>
+        const businessInfo = `
+        Dog Training:
+        Basic Obedience:
+        - Teach commands like "sit", "stay", "come", and "leave it".
+        - Use treats, praise, and toys as positive reinforcement.
+        - Keep training sessions short (5-10 minutes) but frequent.
 
-    </div>
-  </div>
+        House Training:
+        - Take your dog outside regularly, especially after meals.
+        - Reward immediately when they go outside.
+        - Maintain a consistent feeding and potty schedule.
 
-  <script src="script.js"></script>
+        Leash Training:
+        - Use a short leash initially and reward calm walking.
+        - Stop walking if the dog pulls, resume when it relaxes.
+
+        Behaviour Correction:
+        - Never use physical punishment. Redirect bad behaviour calmly.
+        - Consistency is key. Everyone in the household should follow the same rules.
+
+        Cat Training:
+        Litter Box Training:
+        - Place the box in a quiet, accessible location.
+        - Clean it daily. Avoid scented litter if your cat is fussy.
+        - Reward and praise when they use the box properly.
+
+        Scratching Behaviour:
+        - Provide scratching posts and redirect if they scratch furniture.
+        - Use catnip or treats to encourage scratching in the right place.
+
+        Commands and Enrichment:
+        - Train with clicker or treats for tricks like "sit" or "high-five".
+        - Use puzzle feeders and toys to prevent boredom.
+
+        General Advice:
+        - Cats respond better to calm, patient training.
+        - Avoid punishment. It may stress them and make behaviours worse.
+
+        Bird Training (General):
+        - Birds respond well to consistent routines and gentle tone.
+        - Teach them to perch on your finger using treats or praise.
+        - Keep sessions short (5-10 minutes) and daily.
+
+        Handling:
+        - Move slowly. Sudden movements can frighten birds.
+        - Talk softly and build trust before handling.
+
+        Enrichment:
+        - Rotate toys regularly to prevent boredom.
+        - Offer foraging opportunities and puzzles.
+
+        Reptile Training (General):
+        - Reptiles aren't social like mammals, so training focuses on handling and routine.
+        - Start with hand-feeding to build trust.
+        - Avoid handling when shedding or stressed.
+
+        Handling:
+        - Support the full body when lifting.
+        - Be patient — reptiles take longer to acclimate.
+
+        Habitat Consistency:
+        - Maintain consistent lighting, temperature, and feeding times.
+        - Stress can affect their health, so avoid loud noises or frequent changes.
+
+        Hamster Training:
+        - Begin by letting your hamster get used to your scent.
+        - Offer treats from your hand, then progress to gentle handling.
+        - Use tunnels, wheels, and toys to keep them active and happy.
+
+        General Training Tips for All Pets:
+        - Consistency and patience are crucial.
+        - Avoid shouting or physical punishment — use rewards.
+        - Respect your pet's space and mood.
+
+        Location:
+        Address: 123 Pet Lane, Barktown, CA 90210, USA
+        Phone: +1 800-555-PAWS
+        Email: info@pettrainingbuddy.com
+        Opening Hours:
+        Monday to Friday: 9:00 AM to 6:00 PM
+        Saturday: 10:00 AM to 4:00 PM
+        Sunday: Closed
+
+        Tone Instructions:
+        Conciseness: Keep replies under 3 sentences where possible.
+        Formality: Friendly and professional tone. Avoid harsh words.
+        Clarity: Use plain English. Break down complex behaviour tips.
+        Consistency: All replies should be helpful and aligned with positive reinforcement methods.
+        Example: "Of course! You can begin puppy training at 8 weeks with gentle commands like 'sit' and 'stay.' Let us know if you'd like a guide!
+        `;
+
+        const API_KEY = "AIzaSyCvBXsrHxkdiPGvsq9FZw9o3YsRspzHWSE";
+        const genAI = new GoogleGenerativeAI(API_KEY);
+        const model = genAI.getGenerativeModel({ 
+            model: "gemini-1.5-flash",
+            systemInstruction: businessInfo
+        });
+
+        let messages = {
+            history: [],
+        }
+
+        // Chat Interface Toggle
+        const chatButton = document.getElementById('chatButton');
+        const chatWindow = document.getElementById('chatWindow');
+        const closeChat = document.getElementById('closeChat');
+        
+        chatButton.addEventListener('click', () => {
+            chatWindow.classList.toggle('active');
+        });
+        
+        closeChat.addEventListener('click', () => {
+            chatWindow.classList.remove('active');
+        });
+        
+        // Simulate login/logout (for demo purposes)
+        const logoutBtn = document.getElementById('logoutBtn');
+        const loginBtn = document.querySelector('.btn-outline');
+        const signupBtn = document.querySelector('.btn-primary');
+        
+        // This would be replaced with actual auth logic
+        loginBtn.addEventListener('click', () => {
+            loginBtn.style.display = 'none';
+            signupBtn.style.display = 'none';
+            logoutBtn.style.display = 'block';
+        });
+        
+        logoutBtn.addEventListener('click', () => {
+            logoutBtn.style.display = 'none';
+            loginBtn.style.display = 'block';
+            signupBtn.style.display = 'block';
+        });
+
+        async function sendMessage() {
+            const userMessage = document.getElementById('chatInput').value;
+            
+            if (userMessage.length) {
+                try {
+                    document.getElementById('chatInput').value = "";
+                    document.querySelector(".chat").insertAdjacentHTML("beforeend",`
+                        <div class="user">
+                            <p>${userMessage}</p>
+                        </div>
+                    `);
+
+                    document.querySelector(".chat").insertAdjacentHTML("beforeend",`
+                        <div class="loader"></div>
+                    `);
+
+                    const chat = model.startChat(messages);
+
+                    let result = await chat.sendMessageStream(userMessage);
+                    
+                    document.querySelector(".chat").insertAdjacentHTML("beforeend",`
+                        <div class="model">
+                            <p></p>
+                        </div>
+                    `);
+                    
+                    let modelMessages = '';
+
+                    for await (const chunk of result.stream) {
+                      const chunkText = chunk.text();
+                      modelMessages = document.querySelectorAll(".chat div.model");
+                      modelMessages[modelMessages.length - 1].querySelector("p").insertAdjacentHTML("beforeend",`
+                        ${chunkText}
+                    `);
+                    }
+
+                    messages.history.push({
+                        role: "user",
+                        parts: [{ text: userMessage }],
+                    });
+
+                    messages.history.push({
+                        role: "model",
+                        parts: [{ text: modelMessages[modelMessages.length - 1].querySelector("p").innerHTML }],
+                    });
+
+                } catch (error) {
+                    document.querySelector(".chat").insertAdjacentHTML("beforeend",`
+                        <div class="error">
+                            <p>The message could not be sent. Please try again.</p>
+                        </div>
+                    `);
+                    console.error(error);
+                }
+
+                document.querySelector(".chat .loader")?.remove();
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+        }
+
+        document.getElementById('sendMessage').addEventListener('click', sendMessage);
+        
+        document.getElementById('chatInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
 </body>
 </html>

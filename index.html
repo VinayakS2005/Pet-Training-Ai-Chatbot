@@ -24,10 +24,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
-        html {
-            scroll-behavior: smooth;  /* Adds animation */
-        }
         
         body {
             font-family: 'Poppins', sans-serif;
@@ -382,9 +378,9 @@
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            width: 60px;
-            height: 60px;
-            background-color: var(--primary);
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary) 0%, #5a52e0 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -393,25 +389,33 @@
             box-shadow: 0 5px 20px rgba(108, 99, 255, 0.3);
             z-index: 100;
             transition: all 0.3s;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
         
         .chat-button:hover {
             transform: scale(1.1);
-            background-color: #5a52e0;
+            box-shadow: 0 8px 25px rgba(108, 99, 255, 0.4);
         }
         
         .chat-button img {
-            width: 30px;
-            height: 30px;
+            width: 35px;
+            height: 35px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
         
         .chat-window {
             position: fixed;
             bottom: 8rem;
             right: 2rem;
-            width: 350px;
+            width: 400px;
             background-color: white;
-            border-radius: 15px;
+            border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             transform: translateY(20px);
@@ -419,6 +423,7 @@
             visibility: hidden;
             transition: all 0.3s;
             z-index: 100;
+            border: 1px solid rgba(108, 99, 255, 0.1);
         }
         
         .chat-window.active {
@@ -426,103 +431,167 @@
             opacity: 1;
             visibility: visible;
         }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #5a52e0 100%);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
         
         .close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
             background: none;
             border: none;
-            font-size: 1.2rem;
+            color: white;
+            font-size: 1.5rem;
             cursor: pointer;
-            color: var(--dark-gray);
-            z-index: 10;
+            padding: 0.5rem;
+            transition: transform 0.3s;
+        }
+
+        .close:hover {
+            transform: rotate(90deg);
         }
         
         .chat {
-            height: 400px;
+            height: 450px;
             padding: 1.5rem;
             overflow-y: auto;
+            background-color: #f8f9fa;
         }
-        
-        .user p {
+
+        .suggested-questions {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .suggested-question {
+            background-color: white;
+            border: 1px solid rgba(108, 99, 255, 0.2);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .suggested-question:hover {
             background-color: var(--primary);
             color: white;
-            padding: 0.8rem 1rem;
-            border-radius: 10px;
+            transform: translateY(-2px);
+        }
+
+        .user p {
+            background: linear-gradient(135deg, var(--primary) 0%, #5a52e0 100%);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 15px 15px 0 15px;
             display: inline-block;
             max-width: 80%;
             float: right;
             clear: both;
             margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         
         .model p {
-            background-color: var(--light);
-            padding: 0.8rem 1rem;
-            border-radius: 10px;
+            background-color: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 15px 15px 15px 0;
             display: inline-block;
             max-width: 80%;
             clear: both;
             margin-bottom: 1rem;
-        }
-        
-        .loader {
-            border: 3px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 3px solid var(--primary);
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-            margin: 10px 0;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .error p {
-            background-color: #ffebee;
-            color: #c62828;
-            padding: 0.8rem 1rem;
-            border-radius: 10px;
-            display: inline-block;
-            max-width: 80%;
-            clear: both;
-            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(108, 99, 255, 0.1);
         }
         
         .input-area {
             display: flex;
             padding: 1rem;
-            border-top: 1px solid var(--gray);
+            border-top: 1px solid rgba(108, 99, 255, 0.1);
             background-color: white;
+            align-items: center;
         }
         
         .input-area input {
             flex: 1;
-            padding: 0.8rem 1rem;
-            border: 1px solid var(--gray);
-            border-radius: 30px;
+            padding: 0.8rem 1.2rem;
+            border: 1px solid rgba(108, 99, 255, 0.2);
+            border-radius: 25px;
             outline: none;
             font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .input-area input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
         }
         
         .input-area button {
-            background-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, #5a52e0 100%);
             color: white;
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             margin-left: 0.5rem;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .input-area button:hover {
-            background-color: #5a52e0;
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(108, 99, 255, 0.3);
+        }
+
+        .chat .image-message {
+            max-width: 250px;
+            border-radius: 15px;
+            margin: 5px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .loader {
+            border: 3px solid rgba(108, 99, 255, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid var(--primary);
+            width: 25px;
+            height: 25px;
+            animation: spin 1s linear infinite;
+            margin: 10px 0;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error p {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 0.8rem 1.2rem;
+            border-radius: 15px;
+            display: inline-block;
+            max-width: 80%;
+            clear: both;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
         
         /* Responsive Design */
@@ -562,228 +631,650 @@
             }
         }
 
+        .input-button {
+            background-color: var(--light);
+            color: var(--primary);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    /* Pet Detection Section */
-    .pet-detection {
-        padding: 5rem 5%;
-        background-color: white;
-    }
+        .input-button:hover {
+            background-color: var(--primary);
+            color: white;
+        }
 
-    .detection-container {
-        max-width: 1000px;
-        margin: 0 auto;
-        display: flex;
-        gap: 2rem;
-    }
+        .input-button.recording {
+            animation: pulse 1.5s infinite;
+            background-color: var(--secondary);
+            color: white;
+        }
 
-    .upload-area {
-        flex: 1;
-    }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
 
-    .upload-box {
-        border: 2px dashed var(--gray);
-        border-radius: 15px;
-        padding: 2rem;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s;
-        margin-bottom: 1.5rem;
-        position: relative;
-    }
+        /* New Find Nearby Section */
+        .find-nearby {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
 
-    .upload-box:hover {
-        border-color: var(--primary);
-        background-color: rgba(108, 99, 255, 0.05);
-    }
+        .find-nearby-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-    .upload-box i {
-        font-size: 3rem;
-        color: var(--primary);
-        margin-bottom: 1rem;
-    }
+        .search-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
 
-    .upload-box h4 {
-        margin-bottom: 0.5rem;
-        color: var(--dark);
-    }
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.8rem 1.2rem;
+            border: 1px solid rgba(108, 99, 255, 0.2);
+            border-radius: 25px;
+            outline: none;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
 
-    .upload-box p {
-        color: var(--dark-gray);
-        font-size: 0.9rem;
-    }
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+        }
 
-    .upload-box input[type="file"] {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        opacity: 0;
-        cursor: pointer;
-    }
+        .search-button {
+            background: linear-gradient(135deg, var(--primary) 0%, #5a52e0 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
 
-    .upload-tips {
-        background-color: var(--light);
-        padding: 1.5rem;
-        border-radius: 10px;
-        border: 1px solid var(--gray);
-    }
+        .search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
 
-    .upload-tips h5 {
-        margin-bottom: 1rem;
-        color: var(--dark);
-    }
+        .map-container {
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
 
-    .upload-tips ul {
-        list-style: none;
-    }
+        .results-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
 
-    .upload-tips ul li {
-        margin-bottom: 0.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--dark-gray);
-    }
+        .result-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
 
-    .upload-tips ul li i {
-        color: var(--accent);
-    }
+        .result-card:hover {
+            transform: translateY(-5px);
+        }
 
-    .results-area {
-        flex: 1;
-        display: none;
-    }
+        .result-card h3 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
 
-    .image-preview {
-        width: 100%;
-        height: 300px;
-        border-radius: 15px;
-        overflow: hidden;
-        margin-bottom: 1.5rem;
-        background-color: var(--light);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+        .result-card p {
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
 
-    .image-preview img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-    }
+        .result-card .rating {
+            color: #FFB800;
+            margin-bottom: 0.5rem;
+        }
 
-    .detection-results {
-        background-color: white;
-        border-radius: 15px;
-        padding: 1.5rem;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        border: 1px solid var(--gray);
-    }
+        .result-card .distance {
+            color: var(--primary);
+            font-weight: 500;
+        }
 
-    .loading {
-        text-align: center;
-        padding: 2rem 0;
-        display: none;
-    }
+        .type-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
 
-    .loading .loader {
-        border: 3px solid var(--gray);
-        border-top: 3px solid var(--primary);
-        width: 30px;
-        height: 30px;
-        margin: 0 auto 1rem;
-    }
+        .type-button {
+            background: white;
+            border: 1px solid rgba(108, 99, 255, 0.2);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
 
-    .loading p {
-        color: var(--dark-gray);
-    }
+        .type-button.active {
+            background: linear-gradient(135deg, var(--primary) 0%, #5a52e0 100%);
+            color: white;
+            border-color: transparent;
+        }
 
-    .results h4 {
-        margin-bottom: 1rem;
-        color: var(--dark);
-    }
+        @media (max-width: 768px) {
+            .map-container {
+                height: 300px;
+            }
+        }
 
-    .pet-info {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-    }
+        /* Training Plan Section Styles */
+        .training-plan-section {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
 
-    .pet-info img {
-        width: 80px;
-        height: 80px;
-        border-radius: 10px;
-        object-fit: cover;
-    }
+        .training-plan-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
 
-    .pet-details h5 {
-        font-size: 1.2rem;
-        margin-bottom: 0.5rem;
-        color: var(--dark);
-    }
-
-    .pet-details p {
-        color: var(--dark-gray);
-        font-size: 0.9rem;
-    }
-
-    .confidence-meter {
-        margin-bottom: 1.5rem;
-    }
-
-    .confidence-meter h5 {
-        margin-bottom: 0.5rem;
-        color: var(--dark-gray);
-        font-size: 0.9rem;
-    }
-
-    .meter-bar {
-        height: 10px;
-        background-color: var(--gray);
-        border-radius: 5px;
-        overflow: hidden;
-    }
-
-    .meter-progress {
-        height: 100%;
-        background-color: var(--accent);
-        width: 0%;
-        transition: width 0.5s;
-    }
-
-    .training-tips h5 {
-        margin-bottom: 0.5rem;
-        color: var(--dark);
-    }
-
-    .training-tips ul {
-        list-style: none;
-    }
-
-    .training-tips ul li {
-        margin-bottom: 0.5rem;
-        padding-left: 1.5rem;
-        position: relative;
-        color: var(--dark-gray);
-    }
-
-    .training-tips ul li::before {
-        content: "•";
-        color: var(--primary);
-        position: absolute;
-        left: 0;
-    }
-
-    @media (max-width: 768px) {
-        .detection-container {
+        .training-form {
+            display: flex;
             flex-direction: column;
+            gap: 1.5rem;
         }
-        
-        .results-area {
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(108, 99, 255, 0.2);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .generate-plan-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, #5a52e0 100%);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .generate-plan-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
+
+        .training-plan-result {
             margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: none;
         }
-    }
+
+        .training-plan-result.active {
+            display: block;
+        }
+
+        .plan-day {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .plan-day h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-day ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .plan-day li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .plan-day li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .training-plan-container {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Fun Trick of the Day Section */
+        .fun-trick-section {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
+
+        .fun-trick-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .trick-card {
+            background: linear-gradient(135deg, var(--primary) 0%, #5a52e0 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trick-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://cdn-icons-png.flaticon.com/512/616/616408.png') no-repeat center center;
+            background-size: 150px;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .trick-card h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .trick-card p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .trick-steps {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .trick-steps ol {
+            padding-left: 1.5rem;
+            margin: 0;
+        }
+
+        .trick-steps li {
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .trick-tips {
+            margin-top: 1.5rem;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        .new-trick-btn {
+            background: white;
+            color: var(--primary);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1.5rem;
+        }
+
+        .new-trick-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .trick-card {
+                padding: 1.5rem;
+            }
+            
+            .trick-card h3 {
+                font-size: 1.5rem;
+            }
+            
+            .trick-card p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Progress Tracking Section */
+        .progress-tracking-section {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
+
+        .progress-tracking-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(108, 99, 255, 0.2);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+            outline: none;
+        }
+
+        .success-toggle {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: 2px solid var(--gray);
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .toggle-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .toggle-btn i {
+            font-size: 1.2rem;
+        }
+
+        .progress-graph {
+            height: 300px;
+            margin: 2rem 0;
+            position: relative;
+            background: var(--light);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Pet Behavior Interpretation Section */
+        .behavior-interpretation-section {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
+
+        .behavior-interpretation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-upload-area {
+            border: 2px dashed rgba(108, 99, 255, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        .image-upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(108, 99, 255, 0.05);
+        }
+
+        .image-upload-area i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .image-upload-area p {
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+
+        .image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            display: none;
+            margin: 0 auto;
+        }
+
+        .interpretation-result {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .interpretation-result h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .interpretation-result p {
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .interpretation-details {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(108, 99, 255, 0.1);
+        }
+
+        .interpretation-details h5 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .interpretation-details ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .interpretation-details li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .interpretation-details li:before {
+            content: "•";
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, #5a52e0 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
+
+        .upload-btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;  /* Horizontally center */
+            align-items: center;      /* Vertically center */
+            height: 10vh;            /* Make the container take full viewport height */
+            padding-bottom: 5px;
+        }
+
+        #analyze-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        html {
+            scroll-behavior: smooth;  /* Adds animation */
+        }
+
     </style>
 </head>
 <body>
@@ -797,15 +1288,13 @@
         <div class="nav-links">
             <a href="#">Home</a>
             <a href="#feature">Features</a>
-            <a href="#">Blogs</a>
+            
             <a href="#">Resources</a>
             <a href="#">About</a>
         </div>
         
         <div class="auth-buttons">
-            <button class="btn btn-outline">Login</button>
-            <button class="btn btn-primary">Sign Up</button>
-            <button class="btn btn-outline" id="logoutBtn" style="display: none;">
+            <button class="btn btn-outline" id="logoutBtn" onclick="window.location.href='login.html'">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </button>
         </div>
@@ -884,138 +1373,79 @@
         </div>
     </section>
     
-    <!-- Testimonials Section -->
-    <section class="testimonials">
-        <div class="section-title">
-            <h3>Success Stories</h3>
-            <p>Hear from pet owners who transformed their relationship with their pets using PawTron.</p>
-        </div>
-        
-        <div class="testimonial-grid">
-            <div class="testimonial-card">
-                <p class="testimonial-text">"PawTron helped me train my hyperactive Labrador in just 3 weeks. The AI suggestions were spot on and easy to follow. I couldn't believe the results!"</p>
-                <div class="testimonial-author">
-                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah J.">
-                    <div class="author-info">
-                        <h5>Sarah J.</h5>
-                        <p>Dog Owner</p>
-                    </div>
-                </div>
+    <!-- Training Plan Section -->
+    <section class="training-plan-section">
+        <div class="training-plan-container">
+            <div class="section-title">
+                <h3>Personalized Training Plan</h3>
+                <p>Get a customized training plan based on your pet's specific needs</p>
             </div>
             
-            <div class="testimonial-card">
-                <p class="testimonial-text">"As a first-time cat owner, I was overwhelmed. PawTron's personalized training plans made all the difference. My cat now responds to commands!"</p>
-                <div class="testimonial-author">
-                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael T.">
-                    <div class="author-info">
-                        <h5>Michael T.</h5>
-                        <p>Cat Owner</p>
-                    </div>
+            <form class="training-form" id="trainingPlanForm">
+                <div class="form-group">
+                    <label for="petType">Pet Type</label>
+                    <select id="petType" required>
+                        <option value="">Select pet type</option>
+                        <option value="dog">Dog</option>
+                        <option value="cat">Cat</option>
+                        <option value="bird">Bird</option>
+                        <option value="other">Other</option>
+                    </select>
                 </div>
-            </div>
+                
+                <div class="form-group">
+                    <label for="breed">Breed</label>
+                    <input type="text" id="breed" placeholder="Enter your pet's breed" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="text" id="age" placeholder="Enter your pet's age" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="behaviorIssues">Behavior Issues (if any)</label>
+                    <textarea id="behaviorIssues" placeholder="Describe any behavior issues you'd like to address"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="trainingGoals">Training Goals</label>
+                    <textarea id="trainingGoals" placeholder="What would you like to achieve with training?" required></textarea>
+                </div>
+                
+                <button type="submit" class="generate-plan-btn">Generate Training Plan</button>
+            </form>
             
-            <div class="testimonial-card">
-                <p class="testimonial-text">"The behavior analysis feature helped me understand why my parrot was acting out. With PawTron's recommendations, we've never been happier together."</p>
-                <div class="testimonial-author">
-                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emily R.">
-                    <div class="author-info">
-                        <h5>Emily R.</h5>
-                        <p>Bird Owner</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pet Detection Section -->
-    <section class="pet-detection" id="detection">
-        <div class="section-title">
-            <h3>AI Pet Detection</h3>
-            <p>Upload a photo of your pet to get instant breed detection and training recommendations</p>
-        </div>
-        
-        <div class="detection-container">
-            <div class="upload-area">
-                <div class="upload-box" id="uploadBox">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <h4>Drag & Drop Pet Image</h4>
-                    <p>or click to browse files</p>
-                    <input type="file" id="petUpload" accept="image/*">
-                </div>
-                <div class="upload-tips">
-                    <h5>Tips for best results:</h5>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Use clear, well-lit photos</li>
-                        <li><i class="fas fa-check-circle"></i> Show pet facing the camera</li>
-                        <li><i class="fas fa-check-circle"></i> Avoid busy backgrounds</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="results-area" id="resultsArea">
-                <div class="image-preview" id="imagePreview"></div>
-                <div class="detection-results" id="detectionResults">
-                    <div class="loading" id="loadingIndicator">
-                        <div class="loader"></div>
-                        <p>Analyzing your pet...</p>
-                    </div>
-                    <div class="results" id="resultsContent"></div>
-                </div>
-            </div>
+            <div class="training-plan-result" id="trainingPlanResult"></div>
         </div>
     </section>
     
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-column">
-                <h4>PawTron</h4>
-                <p>The smartest way to train your pet with AI-powered assistance and expert guidance.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
+    <!-- Fun Trick of the Day Section -->
+    <section class="fun-trick-section">
+        <div class="fun-trick-container">
+            <div class="section-title">
+                <h3>Fun Trick of the Day</h3>
+                <p>Learn a new trick to teach your pet every day!</p>
+            </div>
+            
+            <div class="trick-card" id="trickCard">
+                <h3 id="trickName">Loading...</h3>
+                <p id="trickDescription"></p>
+                <div class="trick-steps">
+                    <ol id="trickSteps"></ol>
                 </div>
+                <p class="trick-tips" id="trickTips"></p>
             </div>
             
-            <div class="footer-column">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Features</a></li>
-                    <li><a href="#">Training Programs</a></li>
-                    <li><a href="#">Pricing</a></li>
-                    <li><a href="#">About Us</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h4>Resources</h4>
-                <ul>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Training Guides</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Support</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Cookie Policy</a></li>
-                    <li><a href="#">GDPR</a></li>
-                </ul>
-            </div>
+            <button class="new-trick-btn" id="newTrickBtn">Show Another Trick</button>
         </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2023 PawTron AI Pet Training Assistant. All rights reserved.</p>
-        </div>
-    </footer>
+    </section>
+    
+    <!-- Testimonials Section -->
+    
+    
+    <!-- Footer -->
+    
     
     <!-- Chat Interface -->
     <div class="chat-button" id="chatButton">
@@ -1023,17 +1453,129 @@
     </div>
     
     <section class="chat-window" id="chatWindow">
-        <button class="close" id="closeChat">× close</button>
+        <div class="chat-header">
+            <h3>AI Pet Training Assistant</h3>
+            <button class="close" id="closeChat">×</button>
+        </div>
         <div class="chat">
             <div class="model">
                 <p>Hi there! I'm your AI Pet Training Assistant. How can I help you and your pet today?</p>
             </div>
+            <div class="suggested-questions">
+                <div class="suggested-question" data-question="How do I potty train my puppy?">How do I potty train my puppy?</div>
+                <div class="suggested-question" data-question="What are basic commands I should teach my dog?">Basic commands for dogs</div>
+                <div class="suggested-question" data-question="How can I stop my cat from scratching furniture?">Stop cat from scratching</div>
+                <div class="suggested-question" data-question="How often should I train my pet?">Training frequency</div>
+                <div class="suggested-question" data-question="What are good treats for training?">Training treats</div>
+                <div class="suggested-question" data-question="How do I socialize my pet?">Pet socialization</div>
+            </div>
         </div>
         <div class="input-area">
             <input placeholder="Ask me anything about pet training..." type="text" id="chatInput">
+            <label for="imageInput" class="input-button" title="Upload an image">
+                <i class="fas fa-image"></i>
+                <input type="file" id="imageInput" accept="image/*" style="display: none;">
+            </label>
             <button id="sendMessage">
                 <i class="fas fa-paper-plane"></i>
             </button>
+        </div>
+    </section>
+
+    <!-- Progress Tracking Section -->
+    <section class="progress-tracking-section">
+        <div class="progress-tracking-container">
+            <div class="section-title">
+                <h3>Progress Tracking</h3>
+                <p>Log your training sessions and track your pet's progress</p>
+            </div>
+            
+            <form class="progress-form" id="progressForm">
+                <div class="form-group">
+                    <label for="trainingDate">Training Date</label>
+                    <input type="date" id="trainingDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="command">Command/Skill</label>
+                    <input type="text" id="command" placeholder="e.g., Sit, Stay, Come" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="duration">Duration (minutes)</label>
+                    <input type="number" id="duration" min="1" max="60" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Training Result</label>
+                    <div class="success-toggle">
+                        <button type="button" class="toggle-btn" data-success="true">
+                            <i class="fas fa-check-circle"></i> Successful
+                        </button>
+                        <button type="button" class="toggle-btn" data-success="false">
+                            <i class="fas fa-times-circle"></i> Failed
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" placeholder="Add any observations or comments about the training session"></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Log Training Session</button>
+            </form>
+            
+            <div class="progress-graph">
+                <canvas id="successRateChart"></canvas>
+            </div>
+            
+            <div class="progress-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalSessions">0</div>
+                    <div class="stat-label">Total Sessions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="successRate">0%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="avgDuration">0</div>
+                    <div class="stat-label">Avg. Duration (min)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pet Behavior Interpretation Section -->
+    <section class="behavior-interpretation-section">
+        <div class="behavior-interpretation-container">
+            <div class="section-title">
+                <h3>Pet Behavior Interpretation</h3>
+                <p>Upload a photo of your pet to understand their behavior and mood</p>
+            </div>
+            
+            <div class="image-upload-area" id="imageUploadArea">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Click to upload or drag and drop a photo of your pet</p>
+                <input type="file" id="behaviorImageInput" accept="image/*" style="display: none;">
+                
+            </div>
+            <div class="container">
+                <button class="upload-btn" id="analyzeBtn" disabled>Analyze Behavior</button>
+              </div>
+            
+            <img id="imagePreview" class="image-preview" alt="Pet Image Preview">
+            
+            <div class="interpretation-result" id="interpretationResult">
+                <h4>Behavior Analysis</h4>
+                <p id="behaviorAnalysis"></p>
+                
+                <div class="interpretation-details">
+                    <h5>Key Observations</h5>
+                    <ul id="keyObservations"></ul>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1045,11 +1587,78 @@
         }
     </script>
     
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <script type="module">
         import { GoogleGenerativeAI } from "@google/generative-ai";
 
         const businessInfo = `
-        Training data here
+        Dog Training:
+        Basic Obedience:
+        - Teach commands like "sit", "stay", "come", and "leave it".
+        - Use treats, praise, and toys as positive reinforcement.
+        - Keep training sessions short (5-10 minutes) but frequent.
+
+        Nutrition Guidelines:
+        Dogs:
+        Labrador Retriever:
+        - High-protein diet (25-30%)
+        - Moderate fat content (12-15%)
+        - Complex carbohydrates
+        - Omega-3 fatty acids for joint health
+        - Portion control to prevent obesity
+
+        German Shepherd:
+        - High-protein diet (22-26%)
+        - Glucosamine-rich foods for joint health
+        - Digestible proteins
+        - Probiotics for gut health
+        - Multiple small meals daily
+
+        Golden Retriever:
+        - Balanced protein (23-25%)
+        - Omega fatty acids for coat health
+        - Weight management formulas
+        - Joint supporting nutrients
+        - Antioxidant-rich ingredients
+
+        Poodle:
+        - High-quality protein sources
+        - Low-fat options
+        - Digestible carbohydrates
+        - Skin and coat supplements
+        - Small, frequent meals
+
+        Cats:
+        Persian:
+        - High-protein diet (35-40%)
+        - Wet food for hydration
+        - Hairball control formulas
+        - Omega fatty acids for coat
+        - Small, frequent portions
+
+        Siamese:
+        - High-protein diet (35-40%)
+        - Low-fat content
+        - Digestive health support
+        - Active cat formulas
+        - Fresh water always available
+
+        Maine Coon:
+        - High-protein large breed formulas
+        - Joint supporting nutrients
+        - Heart-healthy ingredients
+        - Wet and dry food mix
+        - Taurine-rich ingredients
+
+        General Pet Nutrition Tips:
+        - Always provide fresh, clean water
+        - Transition to new foods gradually
+        - Consider age-specific formulas
+        - Watch for food allergies
+        - Consult vet for specific needs
+        - Avoid toxic human foods
+        - Monitor weight and adjust portions
         `;
 
         const API_KEY = "AIzaSyCvBXsrHxkdiPGvsq9FZw9o3YsRspzHWSE";
@@ -1059,18 +1668,106 @@
             systemInstruction: businessInfo
         });
 
+        // Image Recognition
+        const imageInput = document.getElementById('imageInput');
+
+        imageInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                try {
+                    const reader = new FileReader();
+                    reader.onload = async (e) => {
+                        const imageData = e.target.result;
+                        document.querySelector(".chat").insertAdjacentHTML("beforeend", `
+                            <div class="user">
+                                <img src="${imageData}" class="image-message" alt="Uploaded image">
+                            </div>
+                        `);
+
+                        document.querySelector(".chat").insertAdjacentHTML("beforeend", `
+                            <div class="loader"></div>
+                        `);
+
+                        try {
+                            const imageChat = model.startChat({
+                                history: messages.history,
+                                generationConfig: {
+                                    maxOutputTokens: 1000,
+                                }
+                            });
+
+                            const base64Image = imageData.split(',')[1];
+                            
+                            const result = await imageChat.sendMessageStream([
+                                "Analyze this pet image. First, identify the animal type and breed. Then, provide specific nutritional recommendations based on the breed. Include: 1) Breed identification with confidence level 2) Key nutritional needs for this breed 3) Recommended food types and ingredients 4) Feeding schedule suggestions 5) Any breed-specific dietary considerations or warnings.",
+                                {
+                                    inlineData: {
+                                        mimeType: "image/jpeg",
+                                        data: base64Image
+                                    }
+                                }
+                            ]);
+
+                            document.querySelector(".chat").insertAdjacentHTML("beforeend", `
+                                <div class="model">
+                                    <p></p>
+                                </div>
+                            `);
+
+                            let modelMessages = '';
+                            for await (const chunk of result.stream) {
+                                const chunkText = chunk.text();
+                                modelMessages = document.querySelectorAll(".chat div.model");
+                                modelMessages[modelMessages.length - 1].querySelector("p").insertAdjacentHTML("beforeend", chunkText);
+                            }
+
+                            messages.history.push({
+                                role: "user",
+                                parts: [{ text: "Analyzing pet image for breed and nutrition recommendations" }],
+                            });
+
+                            messages.history.push({
+                                role: "model",
+                                parts: [{ text: modelMessages[modelMessages.length - 1].querySelector("p").innerHTML }],
+                            });
+
+                        } catch (error) {
+                            console.error('Error processing image:', error);
+                            document.querySelector(".chat").insertAdjacentHTML("beforeend", `
+                                <div class="error">
+                                    <p>Sorry, I couldn't analyze the image. Please try again.</p>
+                                </div>
+                            `);
+                        }
+
+                        document.querySelector(".chat .loader")?.remove();
+                        chatWindow.scrollTop = chatWindow.scrollHeight;
+                    };
+                    reader.readAsDataURL(file);
+                } catch (error) {
+                    console.error('Error reading image file:', error);
+                }
+            }
+        });
+
         let messages = {
             history: [],
         }
 
-        // Chat Interface Toggle
+        // Chat Interface Toggle with Redirection
         const chatButton = document.getElementById('chatButton');
         const chatWindow = document.getElementById('chatWindow');
         const closeChat = document.getElementById('closeChat');
         
         chatButton.addEventListener('click', () => {
-            chatWindow.classList.toggle('active');
+            // Redirect to chat page
+            window.location.href = 'chat.html';
         });
+        
+        // Only show chat window if we're on the chat page
+        if (window.location.pathname.includes('chat.html')) {
+            chatWindow.classList.add('active');
+        }
         
         closeChat.addEventListener('click', () => {
             chatWindow.classList.remove('active');
@@ -1106,39 +1803,56 @@
                         </div>
                     `);
 
-                    document.querySelector(".chat").insertAdjacentHTML("beforeend",`
-                        <div class="loader"></div>
-                    `);
+                    if (userMessage.toLowerCase() === "teach-a-trick challenge" || userMessage.toLowerCase() === "new challenge") {
+                        const randomTrick = tricks[Math.floor(Math.random() * tricks.length)];
+                        document.querySelector(".chat").insertAdjacentHTML("beforeend", `
+                            <div class="model">
+                                <p>🎯 <strong>Teach-a-Trick Challenge!</strong></p>
+                                <p>Your challenge is to teach your pet to: <strong>${randomTrick.name}</strong></p>
+                                <p>${randomTrick.description}</p>
+                                <p>Type out your step-by-step training plan. I'll evaluate your approach and give you feedback!</p>
+                            </div>
+                        `);
+                        messages.history.push({
+                            role: "model",
+                            parts: [{ text: `Starting Teach-a-Trick Challenge: ${randomTrick.name}` }],
+                        });
+                    } else if (userMessage.toLowerCase().includes("how do i teach") || userMessage.toLowerCase().includes("training plan")) {
+                        // Regular chat functionality
+                        document.querySelector(".chat").insertAdjacentHTML("beforeend",`
+                            <div class="loader"></div>
+                        `);
 
-                    const chat = model.startChat(messages);
+                        const chat = model.startChat(messages);
 
-                    let result = await chat.sendMessageStream(userMessage);
-                    
-                    document.querySelector(".chat").insertAdjacentHTML("beforeend",`
-                        <div class="model">
-                            <p></p>
-                        </div>
-                    `);
-                    
-                    let modelMessages = '';
+                        let result = await chat.sendMessageStream(userMessage);
+                        
+                        document.querySelector(".chat").insertAdjacentHTML("beforeend",`
+                            <div class="model">
+                                <p></p>
+                            </div>
+                        `);
+                        
+                        let modelMessages = '';
 
-                    for await (const chunk of result.stream) {
-                      const chunkText = chunk.text();
-                      modelMessages = document.querySelectorAll(".chat div.model");
-                      modelMessages[modelMessages.length - 1].querySelector("p").insertAdjacentHTML("beforeend",`
-                        ${chunkText}
-                    `);
+                        for await (const chunk of result.stream) {
+                            const chunkText = chunk.text();
+                            modelMessages = document.querySelectorAll(".chat div.model");
+                            modelMessages[modelMessages.length - 1].querySelector("p").insertAdjacentHTML("beforeend",`
+                                ${chunkText}
+                            `);
+                        }
+
+                        messages.history.push({
+                            role: "user",
+                            parts: [{ text: userMessage }],
+                        });
+
+                        messages.history.push({
+                            role: "model",
+                            parts: [{ text: modelMessages[modelMessages.length - 1].querySelector("p").innerHTML }],
+                        });
                     }
-
-                    messages.history.push({
-                        role: "user",
-                        parts: [{ text: userMessage }],
-                    });
-
-                    messages.history.push({
-                        role: "model",
-                        parts: [{ text: modelMessages[modelMessages.length - 1].querySelector("p").innerHTML }],
-                    });
 
                 } catch (error) {
                     document.querySelector(".chat").insertAdjacentHTML("beforeend",`
@@ -1162,237 +1876,441 @@
             }
         });
 
+        document.querySelectorAll('.suggested-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const question = button.getAttribute('data-question');
+                document.getElementById('chatInput').value = question;
+                sendMessage();
+            });
+        });
 
-    </script>
-    <!-- Add this anywhere before your closing </body> tag -->
-<script type="module">
-    // Pet Detection with Gemini API
-    document.addEventListener('DOMContentLoaded', function() {
-        const uploadBox = document.getElementById('uploadBox');
-        const petUpload = document.getElementById('petUpload');
-        const imagePreview = document.getElementById('imagePreview');
-        const resultsArea = document.getElementById('resultsArea');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        const resultsContent = document.getElementById('resultsContent');
-        
-        // Handle file upload
-        petUpload.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                processImage(file);
-            }
-        });
-        
-        // Drag and drop functionality
-        uploadBox.addEventListener('dragover', function(e) {
+        // Add this to your existing JavaScript code
+        document.getElementById('trainingPlanForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            uploadBox.classList.add('dragover');
-        });
-        
-        uploadBox.addEventListener('dragleave', function() {
-            uploadBox.classList.remove('dragover');
-        });
-        
-        uploadBox.addEventListener('drop', function(e) {
-            e.preventDefault();
-            uploadBox.classList.remove('dragover');
             
-            const file = e.dataTransfer.files[0];
-            if (file && file.type.match('image.*')) {
-                processImage(file);
-            }
-        });
-        
-        // Process the uploaded image
-        function processImage(file) {
-            const reader = new FileReader();
+            const petType = document.getElementById('petType').value;
+            const breed = document.getElementById('breed').value;
+            const age = document.getElementById('age').value;
+            const behaviorIssues = document.getElementById('behaviorIssues').value;
+            const trainingGoals = document.getElementById('trainingGoals').value;
             
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    // Display the preview
-                    imagePreview.innerHTML = '';
-                    imagePreview.appendChild(img);
-                    
-                    // Show results area
-                    resultsArea.style.display = 'block';
-                    loadingIndicator.style.display = 'block';
-                    resultsContent.style.display = 'none';
-                    
-                    // Scroll to results
-                    setTimeout(() => {
-                        document.getElementById('detection').scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
-                    
-                    // Detect pets in the image using Gemini API
-                    identifyAnimal(file);
-                };
-                img.src = e.target.result;
-            };
+            const resultDiv = document.getElementById('trainingPlanResult');
+            resultDiv.innerHTML = '<div class="loader"></div>';
+            resultDiv.classList.add('active');
             
-            reader.readAsDataURL(file);
-        }
-        
-        // Your working Gemini API function with enhancements
-        async function identifyAnimal(file) {
             try {
-                // First convert image to base64
-                const base64Image = await new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onloadend = () => resolve(reader.result.split(',')[1]);
-                    reader.onerror = reject;
-                    reader.readAsDataURL(file);
+                const chat = model.startChat({
+                    history: messages.history,
+                    generationConfig: {
+                        maxOutputTokens: 1000,
+                    }
                 });
                 
-                // Prepare the enhanced prompt
-                const prompt = `
-                    Analyze this pet image and provide detailed information in JSON format:
-                    {
-                        "animalType": "The primary animal species detected",
-                        "breed": "Specific breed if identifiable",
-                        "confidence": "Your confidence level in this identification",
-                        "description": "Brief physical description",
-                        "trainingTips": [
-                            "Tip 1 for training this type of animal",
-                            "Tip 2",
-                            "Tip 3"
-                        ],
-                        "behaviorNotes": "Any notable behavior characteristics visible"
-                    }
-                    
-                    Be as specific as possible about breed and characteristics.
-                    Focus on animals commonly kept as pets (dogs, cats, birds, etc.).
-                    If no clear animal is visible, return "unknown" for animalType.
-                `;
+                const prompt = `Create a detailed weekly training plan for a ${age}-old ${breed} ${petType}. 
+                Training goals: ${trainingGoals}
+                ${behaviorIssues ? `Behavior issues to address: ${behaviorIssues}` : ''}
                 
-                // API request
-                const requestBody = {
-                    contents: [{
-                        parts: [
-                            { text: prompt },
-                            {
-                                inlineData: {
-                                    mimeType: file.type,
-                                    data: base64Image
-                                }
-                            }
-                        ]
-                    }]
-                };
+                Please provide:
+                1. A 7-day training schedule
+                2. Specific exercises for each day
+                3. Duration and frequency of training sessions
+                4. Required tools or treats
+                5. Progress tracking tips
+                6. Common challenges and solutions
                 
-                // Using your API key
-                const apiKey = "AIzaSyCvBXsrHxkdiPGvsq9FZw9o3YsRspzHWSE";
-                const response = await fetch(
-                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${apiKey}`,
-                    {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(requestBody)
-                    }
-                );
+                Format the response in a clear, easy-to-follow structure.`;
                 
-                if (!response.ok) {
-                    throw new Error(`API request failed with status ${response.status}`);
+                const result = await chat.sendMessageStream(prompt);
+                
+                let planContent = '';
+                for await (const chunk of result.stream) {
+                    planContent += chunk.text();
                 }
                 
-                const data = await response.json();
-                const responseText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Couldn't identify the animal.";
+                // Format the plan content
+                const formattedPlan = formatTrainingPlan(planContent);
+                resultDiv.innerHTML = formattedPlan;
                 
-                // Try to parse JSON response
-                try {
-                    const result = JSON.parse(responseText);
-                    displayGeminiResults(result, file);
-                } catch (e) {
-                    // If not JSON, show raw response
-                    displayTextResults(responseText, file);
-                }
+                // Update chat history
+                messages.history.push({
+                    role: "user",
+                    parts: [{ text: prompt }],
+                });
+                
+                messages.history.push({
+                    role: "model",
+                    parts: [{ text: planContent }],
+                });
                 
             } catch (error) {
-                console.error('Detection error:', error);
-                loadingIndicator.style.display = 'none';
-                resultsContent.innerHTML = `
+                console.error('Error generating training plan:', error);
+                resultDiv.innerHTML = `
                     <div class="error">
-                        <p>Error analyzing image: ${error.message}</p>
-                        <button class="btn btn-outline" onclick="window.location.reload()">Try Again</button>
+                        <p>Sorry, we couldn't generate a training plan. Please try again.</p>
                     </div>
                 `;
             }
-        }
+        });
         
-        // Display formatted results from Gemini
-        function displayGeminiResults(result, file) {
-            loadingIndicator.style.display = 'none';
-            resultsContent.style.display = 'block';
+        function formatTrainingPlan(content) {
+            // Split content into days
+            const days = content.split(/(?=Day \d+)/);
             
-            // Create image preview
-            const imgUrl = URL.createObjectURL(file);
+            let formattedHTML = '<div class="training-plan">';
             
-            // Default values if fields are missing
-            result.animalType = result.animalType || 'Unknown animal';
-            result.breed = result.breed || 'Unknown breed';
-            result.confidence = result.confidence || 'Moderate confidence';
-            result.trainingTips = result.trainingTips || [
-                'Use positive reinforcement',
-                'Keep training sessions short',
-                'Be patient and consistent'
-            ];
+            days.forEach(day => {
+                if (day.trim()) {
+                    const dayContent = day.trim();
+                    formattedHTML += `
+                        <div class="plan-day">
+                            ${dayContent.replace(/\n/g, '<br>')}
+                        </div>
+                    `;
+                }
+            });
             
-            resultsContent.innerHTML = `
-                <h4>AI Pet Analysis</h4>
-                <div class="pet-info">
-                    <img src="${imgUrl}" alt="Uploaded pet" style="max-width: 200px; border-radius: 10px;">
-                    <div class="pet-details">
-                        <h5>${result.animalType}</h5>
-                        <p>${result.breed}</p>
-                        <p>Confidence: ${result.confidence}</p>
-                        ${result.description ? `<p>${result.description}</p>` : ''}
-                    </div>
-                </div>
-                
-                <div class="training-tips">
-                    <h5>Training Recommendations</h5>
-                    <ul>
-                        ${result.trainingTips.map(tip => `<li>${tip}</li>`).join('')}
-                    </ul>
-                </div>
-                
-                ${result.behaviorNotes ? `
-                <div class="behavior-notes">
-                    <h5>Behavior Notes</h5>
-                    <p>${result.behaviorNotes}</p>
-                </div>
-                ` : ''}
-                
-                <button class="btn btn-primary" style="margin-top: 1rem; width: 100%;">
-                    Get Custom Training Plan
-                </button>
-            `;
+            formattedHTML += '</div>';
+            return formattedHTML;
         }
-        
-        // Fallback for non-JSON responses
-        function displayTextResults(text, file) {
-            loadingIndicator.style.display = 'none';
-            resultsContent.style.display = 'block';
-            
-            const imgUrl = URL.createObjectURL(file);
-            
-            resultsContent.innerHTML = `
-                <h4>AI Pet Analysis</h4>
-                <div class="pet-info">
-                    <img src="${imgUrl}" alt="Uploaded pet" style="max-width: 200px; border-radius: 10px;">
-                    <div class="pet-details">
-                        <h5>Analysis Results</h5>
-                    </div>
-                </div>
-                <div class="text-response">
-                    <p>${text}</p>
-                </div>
-                <button class="btn btn-primary" style="margin-top: 1rem; width: 100%;">
-                    Get Custom Training Plan
-                </button>
-            `;
+
+        // Fun Trick of the Day functionality
+        const tricks = [
+            {
+                name: "High Five",
+                description: "Teach your dog to give you a high five! This fun trick is great for building confidence and coordination.",
+                steps: [
+                    "Start with your dog in a sitting position",
+                    "Hold a treat in your closed hand just above your dog's head",
+                    "Say 'High Five' and wait for your dog to paw at your hand",
+                    "As soon as their paw touches your hand, say 'Yes!' and give them the treat",
+                    "Repeat until your dog consistently raises their paw",
+                    "Gradually raise your hand higher to get a proper high five motion"
+                ]
+            },
+            {
+                name: "Spin",
+                description: "A fun and easy trick that will impress your friends! This trick helps improve your dog's body awareness.",
+                steps: [
+                    "Hold a treat near your dog's nose",
+                    "Slowly move the treat in a circle around their head",
+                    "As they follow the treat, they should naturally spin in a circle",
+                    "When they complete the spin, say 'Yes!' and give them the treat",
+                    "Add the verbal cue 'Spin' as they start to understand the motion",
+                    "Practice in both directions for a complete trick"
+                ]
+            },
+            {
+                name: "Play Dead",
+                description: "A classic trick that's sure to get laughs! This trick combines lying down with rolling over.",
+                steps: [
+                    "Start with your dog in a lying down position",
+                    "Hold a treat near their nose and slowly move it towards their shoulder",
+                    "As they follow the treat, they should roll onto their side",
+                    "Say 'Bang!' or 'Play Dead' as they roll over",
+                    "Reward them when they stay in the position",
+                    "Gradually increase the duration they stay 'dead'"
+                ]
+            }
+        ];
+
+        function getRandomTrick() {
+            const randomIndex = Math.floor(Math.random() * tricks.length);
+            return tricks[randomIndex];
         }
-    });
-</script>
+
+        function displayTrick(trick) {
+            document.getElementById('trickName').textContent = trick.name;
+            document.getElementById('trickDescription').textContent = trick.description;
+            
+            const stepsList = document.getElementById('trickSteps');
+            stepsList.innerHTML = '';
+            trick.steps.forEach(step => {
+                const li = document.createElement('li');
+                li.textContent = step;
+                stepsList.appendChild(li);
+            });
+            
+            document.getElementById('trickTips').textContent = trick.tips;
+        }
+
+        // Display initial trick
+        displayTrick(getRandomTrick());
+
+        // Add event listener for new trick button
+        document.getElementById('newTrickBtn').addEventListener('click', () => {
+            displayTrick(getRandomTrick());
+        });
+
+        // Progress Tracking functionality
+        let trainingSessions = [];
+        let selectedSuccess = null;
+        let successRateChart = null;
+
+        // Load saved sessions from localStorage
+        function loadSavedSessions() {
+            const savedSessions = localStorage.getItem('trainingSessions');
+            if (savedSessions) {
+                trainingSessions = JSON.parse(savedSessions);
+                updateStats();
+                updateChart();
+            }
+        }
+
+        // Save sessions to localStorage
+        function saveSessions() {
+            localStorage.setItem('trainingSessions', JSON.stringify(trainingSessions));
+        }
+
+        // Initialize Chart
+        function initializeChart() {
+            const ctx = document.getElementById('successRateChart').getContext('2d');
+            successRateChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Success Rate (%)',
+                        data: [],
+                        borderColor: '#4CAF50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Success Rate (%)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize success toggle buttons
+        document.querySelectorAll('.toggle-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                selectedSuccess = button.dataset.success === 'true';
+            });
+        });
+
+        // Handle form submission
+        document.getElementById('progressForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (selectedSuccess === null) {
+                alert('Please select whether the training was successful or not');
+                return;
+            }
+            
+            const session = {
+                date: document.getElementById('trainingDate').value,
+                command: document.getElementById('command').value,
+                duration: parseInt(document.getElementById('duration').value),
+                success: selectedSuccess,
+                notes: document.getElementById('notes').value
+            };
+            
+            trainingSessions.push(session);
+            saveSessions(); // Save to localStorage
+            updateStats();
+            updateChart();
+            
+            // Reset form
+            e.target.reset();
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            selectedSuccess = null;
+        });
+
+        function updateStats() {
+            const totalSessions = trainingSessions.length;
+            const successfulSessions = trainingSessions.filter(session => session.success).length;
+            const successRate = totalSessions > 0 ? Math.round((successfulSessions / totalSessions) * 100) : 0;
+            const avgDuration = totalSessions > 0 
+                ? Math.round(trainingSessions.reduce((sum, session) => sum + session.duration, 0) / totalSessions)
+                : 0;
+            
+            document.getElementById('totalSessions').textContent = totalSessions;
+            document.getElementById('successRate').textContent = `${successRate}%`;
+            document.getElementById('avgDuration').textContent = avgDuration;
+        }
+
+        function updateChart() {
+            // Group sessions by date and calculate daily success rate
+            const dailyStats = {};
+            trainingSessions.forEach(session => {
+                if (!dailyStats[session.date]) {
+                    dailyStats[session.date] = { total: 0, successful: 0 };
+                }
+                dailyStats[session.date].total++;
+                if (session.success) {
+                    dailyStats[session.date].successful++;
+                }
+            });
+
+            // Sort dates chronologically
+            const sortedDates = Object.keys(dailyStats).sort();
+
+            // Calculate success rates
+            const successRates = sortedDates.map(date => {
+                const stats = dailyStats[date];
+                return Math.round((stats.successful / stats.total) * 100);
+            });
+
+            // Update chart
+            successRateChart.data.labels = sortedDates;
+            successRateChart.data.datasets[0].data = successRates;
+            successRateChart.update();
+        }
+
+        // Initialize chart and load saved sessions when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeChart();
+            loadSavedSessions();
+        });
+
+        // Pet Behavior Interpretation functionality
+        const imageUploadArea = document.getElementById('imageUploadArea');
+        const behaviorImageInput = document.getElementById('behaviorImageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const interpretationResult = document.getElementById('interpretationResult');
+        const behaviorAnalysis = document.getElementById('behaviorAnalysis');
+        const keyObservations = document.getElementById('keyObservations');
+
+        // Handle image upload
+        imageUploadArea.addEventListener('click', () => {
+            behaviorImageInput.click();
+        });
+
+        behaviorImageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    analyzeBtn.disabled = false;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Handle drag and drop
+        imageUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageUploadArea.style.borderColor = 'var(--primary)';
+        });
+
+        imageUploadArea.addEventListener('dragleave', () => {
+            imageUploadArea.style.borderColor = 'rgba(108, 99, 255, 0.3)';
+        });
+
+        imageUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            imageUploadArea.style.borderColor = 'rgba(108, 99, 255, 0.3)';
+            
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                behaviorImageInput.files = e.dataTransfer.files;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    analyzeBtn.disabled = false;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Handle analysis
+        analyzeBtn.addEventListener('click', async () => {
+            const file = behaviorImageInput.files[0];
+            if (!file) return;
+
+            analyzeBtn.disabled = true;
+            analyzeBtn.textContent = 'Analyzing...';
+
+            try {
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    const base64Image = e.target.result.split(',')[1];
+                    
+                    const imageChat = model.startChat({
+                        history: messages.history,
+                        generationConfig: {
+                            maxOutputTokens: 1000,
+                        }
+                    });
+
+                    const result = await imageChat.sendMessageStream([
+                        "Analyze this pet image and provide a detailed behavior interpretation. Include: 1) Overall emotional state 2) Body language indicators 3) Possible reasons for the behavior 4) Recommendations for interaction 5) Any signs of stress or discomfort. Format the response with clear sections and bullet points.",
+                        {
+                            inlineData: {
+                                mimeType: "image/jpeg",
+                                data: base64Image
+                            }
+                        }
+                    ]);
+
+                    let analysisText = '';
+                    let observations = [];
+
+                    for await (const chunk of result.stream) {
+                        const chunkText = chunk.text();
+                        analysisText += chunkText;
+                        
+                        // Extract bullet points for key observations
+                        const bulletPoints = chunkText.match(/\n•\s(.*?)(?=\n|$)/g);
+                        if (bulletPoints) {
+                            observations = bulletPoints.map(point => point.replace(/\n•\s/, ''));
+                        }
+                    }
+
+                    // Update the UI
+                    behaviorAnalysis.textContent = analysisText.split('\n')[0]; // First line as main analysis
+                    
+                    keyObservations.innerHTML = '';
+                    observations.forEach(observation => {
+                        const li = document.createElement('li');
+                        li.textContent = observation;
+                        keyObservations.appendChild(li);
+                    });
+
+                    interpretationResult.style.display = 'block';
+                    analyzeBtn.disabled = false;
+                    analyzeBtn.textContent = 'Analyze Behavior';
+                };
+                reader.readAsDataURL(file);
+
+            } catch (error) {
+                console.error('Error analyzing image:', error);
+                behaviorAnalysis.textContent = 'Sorry, we couldn\'t analyze the image. Please try again.';
+                analyzeBtn.disabled = false;
+                analyzeBtn.textContent = 'Analyze Behavior';
+            }
+        });
+    </script>
 </body>
 </html>

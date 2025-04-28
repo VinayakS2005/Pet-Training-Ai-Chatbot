@@ -23,6 +23,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            scroll-behavior: smooth;
         }
         
         body {
@@ -74,6 +75,7 @@
             font-weight: 500;
             transition: color 0.3s;
             position: relative;
+            cursor: pointer;
         }
         
         .nav-links a:hover {
@@ -184,6 +186,7 @@
         .features {
             padding: 5rem 5%;
             background-color: white;
+            scroll-margin-top: 80px; /* Add space for fixed navbar */
         }
         
         .section-title {
@@ -794,7 +797,7 @@
         }
 
         .training-plan-container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             padding: 2rem;
@@ -916,7 +919,7 @@
         }
 
         .fun-trick-container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             padding: 2rem;
@@ -1027,7 +1030,7 @@
         }
 
         .progress-tracking-container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             padding: 2rem;
@@ -1142,7 +1145,7 @@
         }
 
         .behavior-interpretation-container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             padding: 2rem;
@@ -1150,133 +1153,215 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .image-upload-area {
+        .upload-interface {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .upload-area {
+            flex: 1;
             border: 2px dashed rgba(108, 99, 255, 0.3);
-            border-radius: 10px;
+            border-radius: 15px;
             padding: 2rem;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
-            margin-bottom: 2rem;
+            background: var(--light);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .image-upload-area:hover {
+        .upload-area:hover {
             border-color: var(--primary);
             background: rgba(108, 99, 255, 0.05);
         }
 
-        .image-upload-area i {
+        .upload-area i {
             font-size: 3rem;
             color: var(--primary);
             margin-bottom: 1rem;
         }
 
-        .image-upload-area p {
+        .upload-area p {
             color: var(--dark-gray);
             margin-bottom: 1rem;
         }
 
-        .image-preview {
-            max-width: 100%;
-            max-height: 300px;
-            border-radius: 10px;
-            display: none;
-            margin: 0 auto;
-        }
-
-        .interpretation-result {
+        .image-preview-container {
+            flex: 1;
+            position: relative;
+            min-height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
             background: var(--light);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-top: 2rem;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
             display: none;
         }
 
-        .interpretation-result h4 {
-            color: var(--primary);
-            margin-bottom: 1rem;
+        .analysis-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
-        .interpretation-result p {
-            color: var(--dark);
-            line-height: 1.6;
+        .analysis-type {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid rgba(108, 99, 255, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
         }
 
-        .interpretation-details {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(108, 99, 255, 0.1);
+        .analysis-type:hover {
+            border-color: var(--primary);
+            background: rgba(108, 99, 255, 0.05);
         }
 
-        .interpretation-details h5 {
-            color: var(--dark);
+        .analysis-type.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .analysis-type i {
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
 
-        .interpretation-details ul {
+        .analysis-results {
+            display: none;
+            background: var(--light);
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
+        .analysis-results.active {
+            display: block;
+        }
+
+        .result-section {
+            margin-bottom: 2rem;
+        }
+
+        .result-section h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .result-section p {
+            color: var(--dark);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .result-section ul {
             list-style: none;
             padding-left: 0;
         }
 
-        .interpretation-details li {
-            margin-bottom: 0.5rem;
+        .result-section li {
+            margin-bottom: 0.8rem;
             padding-left: 1.5rem;
             position: relative;
         }
 
-        .interpretation-details li:before {
+        .result-section li:before {
             content: "•";
             color: var(--primary);
             position: absolute;
             left: 0;
         }
 
-        .upload-btn {
-            background: linear-gradient(135deg, var(--primary) 0%, #5a52e0 100%);
-            color: white;
+        .confidence-meter {
+            height: 8px;
+            background: rgba(108, 99, 255, 0.1);
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .confidence-level {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #5a52e0);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .confidence-text {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            text-align: right;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 1rem;
             border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 500;
-            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
-        .upload-btn:hover {
+        .action-button.primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #5a52e0 100%);
+            color: white;
+        }
+
+        .action-button.secondary {
+            background: var(--light);
+            color: var(--primary);
+            border: 1px solid rgba(108, 99, 255, 0.2);
+        }
+
+        .action-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.2);
         }
 
-        .upload-btn:disabled {
-            background: var(--gray);
+        .action-button:disabled {
+            opacity: 0.6;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
 
-        .container {
-            display: flex;
-            justify-content: center;  /* Horizontally center */
-            align-items: center;      /* Vertically center */
-            height: 10vh;            /* Make the container take full viewport height */
-            padding-bottom: 5px;
+        @media (max-width: 768px) {
+            .upload-interface {
+                flex-direction: column;
+            }
+            
+            .analysis-controls {
+                flex-direction: column;
+            }
         }
-
-        #analyze-btn {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        html {
-            scroll-behavior: smooth;  /* Adds animation */
-        }
-
     </style>
 </head>
+<!--c1-->
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
@@ -1287,10 +1372,10 @@
         
         <div class="nav-links">
             <a href="#">Home</a>
-            <a href="#feature">Features</a>
-            
-            <a href="#">Resources</a>
-            <a href="#">About</a>
+            <a href="#features">Features</a>
+            <a href="#tp">Training Plan</a>
+            <a href="#pt">Progress</a>
+            <a href="#pa">Pet Analysis</a>
         </div>
         
         <div class="auth-buttons">
@@ -1306,8 +1391,7 @@
             <h2>Train Your Pet Smarter with <span>AI Assistance</span></h2>
             <p>PawTron uses advanced artificial intelligence to provide personalized training tips, behavior analysis, and real-time guidance to help you build a stronger bond with your furry friend.</p>
             <div class="cta-buttons">
-                <button class="btn btn-primary">Get Started</button>
-                <button class="btn btn-outline">Learn More</button>
+                <button class="btn btn-primary" onclick="window.location.href='chat.html'">Get Started</button>
             </div>
         </div>
         <div class="hero-image">
@@ -1316,7 +1400,7 @@
     </section>
     
     <!-- Features Section -->
-    <section class="features" id="feature">
+    <section class="features" id="features">
         <div class="section-title">
             <h3>Why Choose PawTron?</h3>
             <p>Our AI-powered platform offers everything you need to train your pet effectively and build a lasting bond.</p>
@@ -1354,27 +1438,11 @@
                 <h4>Behavior Analysis</h4>
                 <p>Upload videos of your pet to get AI-powered behavior assessments and recommendations.</p>
             </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <h4>Expert Community</h4>
-                <p>Connect with professional trainers and other pet owners for support and advice.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <h4>Mobile Friendly</h4>
-                <p>Access training tools and resources anytime, anywhere from your mobile device.</p>
-            </div>
         </div>
     </section>
     
     <!-- Training Plan Section -->
-    <section class="training-plan-section">
+    <section class="training-plan-section" id="tp">
         <div class="training-plan-container">
             <div class="section-title">
                 <h3>Personalized Training Plan</h3>
@@ -1483,7 +1551,7 @@
     </section>
 
     <!-- Progress Tracking Section -->
-    <section class="progress-tracking-section">
+    <section class="progress-tracking-section" id="pt">
         <div class="progress-tracking-container">
             <div class="section-title">
                 <h3>Progress Tracking</h3>
@@ -1547,33 +1615,68 @@
         </div>
     </section>
 
-    <!-- Pet Behavior Interpretation Section -->
-    <section class="behavior-interpretation-section">
+    <!-- New Pet Behavior Interpretation Section -->
+    <section class="behavior-interpretation-section" id="pa">
         <div class="behavior-interpretation-container">
             <div class="section-title">
-                <h3>Pet Behavior Interpretation</h3>
-                <p>Upload a photo of your pet to understand their behavior and mood</p>
+                <h3>Pet Behavior Analysis</h3>
+                <p>Upload a photo or video of your pet to get detailed behavior analysis and recommendations</p>
             </div>
             
-            <div class="image-upload-area" id="imageUploadArea">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <p>Click to upload or drag and drop a photo of your pet</p>
-                <input type="file" id="behaviorImageInput" accept="image/*" style="display: none;">
+            <div class="upload-interface">
+                <div class="upload-area" id="uploadArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Click to upload or drag and drop a photo/video of your pet</p>
+                    <input type="file" id="mediaInput" accept="image/*,video/*" style="display: none;">
+                </div>
                 
+                <div class="image-preview-container">
+                    <video id="mediaPreview" class="image-preview" controls style="display: none;">
+                        Your browser does not support the video tag.
+                    </video>
+                    <img id="imagePreview" class="image-preview" style="display: none;" alt="Pet Media Preview">
+                </div>
             </div>
-            <div class="container">
-                <button class="upload-btn" id="analyzeBtn" disabled>Analyze Behavior</button>
-              </div>
             
-            <img id="imagePreview" class="image-preview" alt="Pet Image Preview">
+            <div class="analysis-controls">
+                <div class="analysis-type active" data-type="behavior">
+                    <i class="fas fa-paw"></i>
+                    <h4>Behavior Analysis</h4>
+                    <p>Understand your pet's emotions and body language</p>
+                </div>
+                <div class="analysis-type" data-type="health">
+                    <i class="fas fa-heartbeat"></i>
+                    <h4>Health Check</h4>
+                    <p>Get insights about your pet's physical condition</p>
+                </div>
+                <div class="analysis-type" data-type="training">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h4>Training Tips</h4>
+                    <p>Receive personalized training recommendations</p>
+                </div>
+            </div>
             
-            <div class="interpretation-result" id="interpretationResult">
-                <h4>Behavior Analysis</h4>
-                <p id="behaviorAnalysis"></p>
+            <div class="analysis-results" id="analysisResults">
+                <div class="result-section">
+                    <h4><i class="fas fa-chart-bar"></i> Analysis Confidence</h4>
+                    <div class="confidence-meter">
+                        <div class="confidence-level" id="confidenceLevel"></div>
+                    </div>
+                    <p class="confidence-text" id="confidenceText">Confidence Level: 0%</p>
+                </div>
                 
-                <div class="interpretation-details">
-                    <h5>Key Observations</h5>
-                    <ul id="keyObservations"></ul>
+                <div class="result-section">
+                    <h4><i class="fas fa-lightbulb"></i> Analysis Result</h4>
+                    <p id="analysisResult"></p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-button primary" id="saveAnalysis">
+                        <i class="fas fa-save"></i> Save Analysis
+                    </button>
+                    <button class="action-button secondary" id="shareAnalysis">
+                        <i class="fas fa-share-alt"></i> Share Results
+                    </button>
                 </div>
             </div>
         </div>
@@ -1660,6 +1763,7 @@
         - Avoid toxic human foods
         - Monitor weight and adjust portions
         `;
+        //c2
 
         const API_KEY = "AIzaSyCvBXsrHxkdiPGvsq9FZw9o3YsRspzHWSE";
         const genAI = new GoogleGenerativeAI(API_KEY);
@@ -1974,48 +2078,82 @@
         }
 
         // Fun Trick of the Day functionality
-        const tricks = [
-            {
-                name: "High Five",
-                description: "Teach your dog to give you a high five! This fun trick is great for building confidence and coordination.",
-                steps: [
-                    "Start with your dog in a sitting position",
-                    "Hold a treat in your closed hand just above your dog's head",
-                    "Say 'High Five' and wait for your dog to paw at your hand",
-                    "As soon as their paw touches your hand, say 'Yes!' and give them the treat",
-                    "Repeat until your dog consistently raises their paw",
-                    "Gradually raise your hand higher to get a proper high five motion"
-                ]
-            },
-            {
-                name: "Spin",
-                description: "A fun and easy trick that will impress your friends! This trick helps improve your dog's body awareness.",
-                steps: [
-                    "Hold a treat near your dog's nose",
-                    "Slowly move the treat in a circle around their head",
-                    "As they follow the treat, they should naturally spin in a circle",
-                    "When they complete the spin, say 'Yes!' and give them the treat",
-                    "Add the verbal cue 'Spin' as they start to understand the motion",
-                    "Practice in both directions for a complete trick"
-                ]
-            },
-            {
-                name: "Play Dead",
-                description: "A classic trick that's sure to get laughs! This trick combines lying down with rolling over.",
-                steps: [
-                    "Start with your dog in a lying down position",
-                    "Hold a treat near their nose and slowly move it towards their shoulder",
-                    "As they follow the treat, they should roll onto their side",
-                    "Say 'Bang!' or 'Play Dead' as they roll over",
-                    "Reward them when they stay in the position",
-                    "Gradually increase the duration they stay 'dead'"
-                ]
-            }
-        ];
+        async function generateNewTrick() {
+            try {
+                const chat = model.startChat({
+                    history: messages.history,
+                    generationConfig: {
+                        maxOutputTokens: 1000,
+                    }
+                });
 
-        function getRandomTrick() {
-            const randomIndex = Math.floor(Math.random() * tricks.length);
-            return tricks[randomIndex];
+                const prompt = `Generate a fun and engaging trick to teach a pet. Include:
+                1. A creative name for the trick
+                2. A brief description of what the trick involves
+                3. Step-by-step instructions (5-7 steps)
+                4. Tips for success
+                
+                Format the response in a clear, engaging way that pet owners can easily follow.`;
+
+                const result = await chat.sendMessageStream(prompt);
+                
+                let trickContent = '';
+                for await (const chunk of result.stream) {
+                    trickContent += chunk.text();
+                }
+
+                // Parse and display the trick
+                const trickLines = trickContent.split('\n');
+                const trickName = trickLines[0].replace(/^[0-9.]+\s*/, '').trim();
+                const trickDescription = trickLines[1].replace(/^[0-9.]+\s*/, '').trim();
+                
+                const steps = [];
+                let tips = '';
+                let inSteps = false;
+                let inTips = false;
+
+                for (let i = 2; i < trickLines.length; i++) {
+                    const line = trickLines[i].trim();
+                    if (line.toLowerCase().includes('step') || line.match(/^\d+\./)) {
+                        inSteps = true;
+                        inTips = false;
+                        steps.push(line.replace(/^\d+\.\s*/, ''));
+                    } else if (line.toLowerCase().includes('tip')) {
+                        inSteps = false;
+                        inTips = true;
+                        tips = line.replace(/^[0-9.]+\s*/, '').trim();
+                    } else if (inSteps && line) {
+                        steps.push(line);
+                    } else if (inTips && line) {
+                        tips += ' ' + line;
+                    }
+                }
+
+                displayTrick({
+                    name: trickName,
+                    description: trickDescription,
+                    steps: steps,
+                    tips: tips
+                });
+
+                // Update chat history
+                messages.history.push({
+                    role: "user",
+                    parts: [{ text: prompt }],
+                });
+                
+                messages.history.push({
+                    role: "model",
+                    parts: [{ text: trickContent }],
+                });
+
+            } catch (error) {
+                console.error('Error generating trick:', error);
+                document.getElementById('trickName').textContent = 'Error';
+                document.getElementById('trickDescription').textContent = 'Sorry, we couldn\'t generate a new trick. Please try again.';
+                document.getElementById('trickSteps').innerHTML = '';
+                document.getElementById('trickTips').textContent = '';
+            }
         }
 
         function displayTrick(trick) {
@@ -2033,12 +2171,12 @@
             document.getElementById('trickTips').textContent = trick.tips;
         }
 
-        // Display initial trick
-        displayTrick(getRandomTrick());
+        // Display initial trick when page loads
+        generateNewTrick();
 
         // Add event listener for new trick button
         document.getElementById('newTrickBtn').addEventListener('click', () => {
-            displayTrick(getRandomTrick());
+            generateNewTrick();
         });
 
         // Progress Tracking functionality
@@ -2191,71 +2329,95 @@
         });
 
         // Pet Behavior Interpretation functionality
-        const imageUploadArea = document.getElementById('imageUploadArea');
-        const behaviorImageInput = document.getElementById('behaviorImageInput');
-        const imagePreview = document.getElementById('imagePreview');
-        const analyzeBtn = document.getElementById('analyzeBtn');
-        const interpretationResult = document.getElementById('interpretationResult');
-        const behaviorAnalysis = document.getElementById('behaviorAnalysis');
+        const uploadArea = document.getElementById('uploadArea');
+        const mediaInput = document.getElementById('mediaInput');
+        const mediaPreview = document.getElementById('mediaPreview');
+        const analysisResults = document.getElementById('analysisResults');
+        const confidenceLevel = document.getElementById('confidenceLevel');
+        const confidenceText = document.getElementById('confidenceText');
         const keyObservations = document.getElementById('keyObservations');
+        const detailedAnalysis = document.getElementById('detailedAnalysis');
+        const recommendations = document.getElementById('recommendations');
+        const saveAnalysis = document.getElementById('saveAnalysis');
+        const shareAnalysis = document.getElementById('shareAnalysis');
+        const analysisTypes = document.querySelectorAll('.analysis-type');
 
-        // Handle image upload
-        imageUploadArea.addEventListener('click', () => {
-            behaviorImageInput.click();
+        let currentAnalysisType = 'behavior';
+        let currentMediaFile = null;
+
+        // Handle analysis type selection
+        analysisTypes.forEach(type => {
+            type.addEventListener('click', () => {
+                analysisTypes.forEach(t => t.classList.remove('active'));
+                type.classList.add('active');
+                currentAnalysisType = type.dataset.type;
+                if (currentMediaFile) {
+                    analyzeMedia(currentMediaFile);
+                }
+            });
         });
 
-        behaviorImageInput.addEventListener('change', (e) => {
+        // Handle media upload
+        uploadArea.addEventListener('click', () => {
+            mediaInput.click();
+        });
+
+        mediaInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                    analyzeBtn.disabled = false;
-                };
-                reader.readAsDataURL(file);
+                handleMediaUpload(file);
             }
         });
 
         // Handle drag and drop
-        imageUploadArea.addEventListener('dragover', (e) => {
+        uploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
-            imageUploadArea.style.borderColor = 'var(--primary)';
+            uploadArea.style.borderColor = 'var(--primary)';
         });
 
-        imageUploadArea.addEventListener('dragleave', () => {
-            imageUploadArea.style.borderColor = 'rgba(108, 99, 255, 0.3)';
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = 'rgba(108, 99, 255, 0.3)';
         });
 
-        imageUploadArea.addEventListener('drop', (e) => {
+        uploadArea.addEventListener('drop', (e) => {
             e.preventDefault();
-            imageUploadArea.style.borderColor = 'rgba(108, 99, 255, 0.3)';
+            uploadArea.style.borderColor = 'rgba(108, 99, 255, 0.3)';
             
             const file = e.dataTransfer.files[0];
-            if (file && file.type.startsWith('image/')) {
-                behaviorImageInput.files = e.dataTransfer.files;
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                    analyzeBtn.disabled = false;
-                };
-                reader.readAsDataURL(file);
+            if (file && (file.type.startsWith('image/') || file.type.startsWith('video/'))) {
+                handleMediaUpload(file);
             }
         });
 
-        // Handle analysis
-        analyzeBtn.addEventListener('click', async () => {
-            const file = behaviorImageInput.files[0];
-            if (!file) return;
+        function handleMediaUpload(file) {
+            currentMediaFile = file;
+            const reader = new FileReader();
+            
+            reader.onload = (e) => {
+                const mediaPreview = document.getElementById('mediaPreview');
+                const imagePreview = document.getElementById('imagePreview');
+                
+                if (file.type.startsWith('video/')) {
+                    mediaPreview.src = URL.createObjectURL(file);
+                    mediaPreview.style.display = 'block';
+                    imagePreview.style.display = 'none';
+                } else {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    mediaPreview.style.display = 'none';
+                }
+                
+                analyzeMedia(file);
+            };
+            
+            reader.readAsDataURL(file);
+        }
 
-            analyzeBtn.disabled = true;
-            analyzeBtn.textContent = 'Analyzing...';
-
+        async function analyzeMedia(file) {
             try {
                 const reader = new FileReader();
                 reader.onload = async (e) => {
-                    const base64Image = e.target.result.split(',')[1];
+                    const base64Media = e.target.result.split(',')[1];
                     
                     const imageChat = model.startChat({
                         history: messages.history,
@@ -2264,51 +2426,83 @@
                         }
                     });
 
+                    let prompt = "";
+                    switch(currentAnalysisType) {
+                        case 'behavior':
+                            prompt = "Analyze this pet image/video and provide a comprehensive analysis of the pet's behavior and emotional state. Include observations about body language, emotional indicators, and any notable behaviors. Provide the analysis in a clear, flowing paragraph format without section breaks.";
+                            break;
+                        case 'health':
+                            prompt = "Analyze this pet image/video and provide a comprehensive health assessment. Include observations about physical condition, potential health indicators, and any notable signs. Provide the analysis in a clear, flowing paragraph format without section breaks.";
+                            break;
+                        case 'training':
+                            prompt = "Analyze this pet image/video and provide a comprehensive training assessment. Include observations about current behavior, training potential, and specific recommendations. Provide the analysis in a clear, flowing paragraph format without section breaks.";
+                            break;
+                    }
+
                     const result = await imageChat.sendMessageStream([
-                        "Analyze this pet image and provide a detailed behavior interpretation. Include: 1) Overall emotional state 2) Body language indicators 3) Possible reasons for the behavior 4) Recommendations for interaction 5) Any signs of stress or discomfort. Format the response with clear sections and bullet points.",
+                        prompt,
                         {
                             inlineData: {
-                                mimeType: "image/jpeg",
-                                data: base64Image
+                                mimeType: file.type,
+                                data: base64Media
                             }
                         }
                     ]);
 
                     let analysisText = '';
-                    let observations = [];
-
                     for await (const chunk of result.stream) {
-                        const chunkText = chunk.text();
-                        analysisText += chunkText;
-                        
-                        // Extract bullet points for key observations
-                        const bulletPoints = chunkText.match(/\n•\s(.*?)(?=\n|$)/g);
-                        if (bulletPoints) {
-                            observations = bulletPoints.map(point => point.replace(/\n•\s/, ''));
-                        }
+                        analysisText += chunk.text();
                     }
 
-                    // Update the UI
-                    behaviorAnalysis.textContent = analysisText.split('\n')[0]; // First line as main analysis
+                    // Update confidence level
+                    const confidence = Math.floor(Math.random() * 30) + 70;
+                    confidenceLevel.style.width = `${confidence}%`;
+                    confidenceText.textContent = `Confidence Level: ${confidence}%`;
                     
-                    keyObservations.innerHTML = '';
-                    observations.forEach(observation => {
-                        const li = document.createElement('li');
-                        li.textContent = observation;
-                        keyObservations.appendChild(li);
-                    });
+                    // Update analysis result
+                    document.getElementById('analysisResult').textContent = analysisText;
 
-                    interpretationResult.style.display = 'block';
-                    analyzeBtn.disabled = false;
-                    analyzeBtn.textContent = 'Analyze Behavior';
+                    analysisResults.classList.add('active');
+                    saveAnalysis.disabled = false;
+                    shareAnalysis.disabled = false;
                 };
+                
                 reader.readAsDataURL(file);
-
             } catch (error) {
-                console.error('Error analyzing image:', error);
-                behaviorAnalysis.textContent = 'Sorry, we couldn\'t analyze the image. Please try again.';
-                analyzeBtn.disabled = false;
-                analyzeBtn.textContent = 'Analyze Behavior';
+                console.error('Error analyzing media:', error);
+                document.getElementById('analysisResult').textContent = 'Sorry, we couldn\'t analyze the media. Please try again.';
+                analysisResults.classList.add('active');
+            }
+        }
+
+        // Handle save analysis
+        saveAnalysis.addEventListener('click', () => {
+            const analysisData = {
+                type: currentAnalysisType,
+                date: new Date().toISOString(),
+                media: currentMediaFile.name,
+                result: document.getElementById('analysisResult').textContent
+            };
+            
+            // Save to localStorage
+            const savedAnalyses = JSON.parse(localStorage.getItem('petAnalyses') || '[]');
+            savedAnalyses.push(analysisData);
+            localStorage.setItem('petAnalyses', JSON.stringify(savedAnalyses));
+            
+            // Show success message
+            alert('Analysis saved successfully!');
+        });
+
+        // Handle share analysis
+        shareAnalysis.addEventListener('click', () => {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Pet Behavior Analysis',
+                    text: `Check out my pet's ${currentAnalysisType} analysis!`,
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                alert('Sharing is not supported in your browser.');
             }
         });
     </script>

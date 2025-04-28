@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawTron Chat - AI Pet Training Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #FF6584;
+            --accent: #4DCCBD;
+            --dark: #2D3748;
+            --light: #F7FAFC;
+            --gray: #E2E8F0;
+            --dark-gray: #718096;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            scroll-behavior: smooth;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 5%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .logo h1 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            color: var(--dark);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .back-button:hover {
+            color: var(--primary);
+        }
+
+        .chat-container {
+            flex: 1;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 5%;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .chat-window {
+            flex: 1;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: calc(100vh - 200px);
+            border: 1px solid rgba(108, 99, 255, 0.1);
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #5a52e0 100%);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .chat-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        .chat {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+        }
+
+        .user p {
+            background: linear-gradient(135deg, var(--primary) 0%, #5a52e0 100%);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 15px 15px 0 15px;
+            display: inline-block;
+            max-width: 80%;
+            float: right;
+            clear: both;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .model p {
+            background-color: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 15px 15px 15px 0;
+            display: inline-block;
+            max-width: 80%;
+            clear: both;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(108, 99, 255, 0.1);
+        }
+
+        .input-area {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid rgba(108, 99, 255, 0.1);
+            background-color: white;
+            align-items: center;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 0.8rem 1.2rem;
+            border: 1px solid rgba(108, 99, 255, 0.2);
+            border-radius: 25px;
+            outline: none;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .input-area input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+        }
+
+        .input-button {
+            background-color: var(--light);
+            color: var(--primary);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-button:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .input-button.recording {
+            animation: pulse 1.5s infinite;
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .send-button {
+            background: linear-gradient(135deg, var(--primary) 0%, #5a52e0 100%);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(108, 99, 255, 0.3);
+        }
+
+        .chat .image-message {
+            max-width: 250px;
+            border-radius: 15px;
+            margin: 5px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .loader {
+            border: 3px solid rgba(108, 99, 255, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid var(--primary);
+            width: 25px;
+            height: 25px;
+            animation: spin 1s linear infinite;
+            margin: 10px 0;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error p {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 0.8rem 1.2rem;
+            border-radius: 15px;
+            display: inline-block;
+            max-width: 80%;
+            clear: both;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .chat-container {
+                margin: 1rem auto;
+                padding: 0 1rem;
+            }
+
+            .chat-window {
+                max-height: calc(100vh - 150px);
+            }
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .clear-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: transform 0.3s;
+            opacity: 0.8;
+        }
+
+        .clear-chat:hover {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+
+        .suggested-questions {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            padding: 0 1rem;
+        }
+
+        .suggested-question {
+            background: white;
+            border: 1px solid rgba(108, 99, 255, 0.2);
+            color: var(--primary);
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            text-align: left;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            white-space: nowrap;
+        }
+
+        .suggested-question i {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .suggested-question:hover {
+            background: linear-gradient(135deg, var(--primary) 0%, #5a52e0 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(108, 99, 255, 0.2);
+        }
+
+        .suggested-question:hover i {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="index.html" class="logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="PawTron Logo">
+                <h1>PawTron</h1>
+            </a>
+            <button class="back-button" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </button>
+        </div>
+    </nav>
+
+    <div class="chat-container">
+        <div class="chat-window">
+            <div class="chat-header">
+                <div>
+                    <h2>AI Pet Training Assistant</h2>
+                    <p>Ask me anything about pet training!</p>
+                </div>
+                <div class="header-buttons">
+                    <button class="clear-chat" id="clearChat" title="Clear chat history">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="chat">
+                <div class="model">
+                    <p>Hi there! I'm your AI Pet Training Assistant. How can I help you and your pet today?</p>
+                </div>
+                <div class="suggested-questions">
+                    <button class="suggested-question" data-question="What are basic commands I should teach my dog?">
+                        <i class="fas fa-paw"></i> Basic commands for dogs
+                    </button>
+                    <button class="suggested-question" data-question="How can I stop my cat from scratching furniture?">
+                        <i class="fas fa-cat"></i> Stop cat from scratching
+                    </button>
+                    <button class="suggested-question" data-question="How often should I train my pet?">
+                        <i class="fas fa-clock"></i> Training frequency
+                    </button>
+                    <button class="suggested-question" data-question="What are good treats for training?">
+                        <i class="fas fa-cookie"></i> Training treats
+                    </button>
+                    <button class="suggested-question" data-question="How do I socialize my pet?">
+                        <i class="fas fa-users"></i> Pet socialization
+                    </button>
+                </div>
+            </div>
+            <div class="input-area">
+                <input placeholder="Ask me anything about pet training..." type="text" id="chatInput">
+                <label for="imageInput" class="input-button" title="Upload an image">
+                    <i class="fas fa-image"></i>
+                    <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                </label>
+                <button id="voiceButton" class="input-button" title="Use voice input">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button id="sendMessage" class="send-button">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="importmap">
+        {
+          "imports": {
+            "@google/generative-ai": "https://esm.run/@google/generative-ai"
+          }
+        }
+    </script>
+    
+    <script type="module">
+        import { GoogleGenerativeAI } from "@google/generative-ai";
+
+        const businessInfo = `
+        Dog Training:
+        Basic Obedience:
+        - Teach commands like "sit", "stay", "come", and "leave it".
+        - Use treats, praise, and toys as positive reinforcement.
+        - Keep training sessions short (5-10 minutes) but frequent.
+
+        House Training:
+        - Take your dog outside regularly, especially after meals.
+        - Reward immediately when they go outside.
+        - Maintain a consistent feeding and potty schedule.
+
+        Leash Training:
+        - Use a short leash initially and reward calm walking.
+        - Stop walking if the dog pulls, resume when it relaxes.
+
+        Behaviour Correction:
+        - Never use physical punishment. Redirect bad behaviour calmly.
+        - Consistency is key. Everyone in the household should follow the same rules.
+
+        Cat Training:
+        Litter Box Training:
+        - Place the box in a quiet, accessible location.
+        - Clean it daily. Avoid scented litter if your cat is fussy.
+        - Reward and praise when they use the box properly.
+
+        Scratching Behaviour:
+        - Provide scratching posts and redirect if they scratch furniture.
+        - Use catnip or treats to encourage scratching in the right place.
+
+        Commands and Enrichment:
+        - Train with clicker or treats for tricks like "sit" or "high-five".
+        - Use puzzle feeders and toys to prevent boredom.
+
+        General Advice:
+        - Cats respond better to calm, patient training.
+        - Avoid punishment. It may stress them and make behaviours worse.
+
+        Bird Training (General):
+        - Birds respond well to consistent routines and gentle tone.
+        - Teach them to perch on your finger using treats or praise.
+        - Keep sessions short (5-10 minutes) and daily.
+
+        Handling:
+        - Move slowly. Sudden movements can frighten birds.
+        - Talk softly and build trust before handling.
+
+        Enrichment:
+        - Rotate toys regularly to prevent boredom.
+        - Offer foraging opportunities and puzzles.
+
+        Reptile Training (General):
+        - Reptiles aren't social like mammals, so training focuses on handling and routine.
+        - Start with hand-feeding to build trust.
+        - Avoid handling when shedding or stressed.
+
+        Handling:
+        - Support the full body when lifting.
+        - Be patient — reptiles take longer to acclimate.
+
+        Habitat Consistency:
+        - Maintain consistent lighting, temperature, and feeding times.
+        - Stress can affect their health, so avoid loud noises or frequent changes.
+
+        Hamster Training:
+        - Begin by letting your hamster get used to your scent.
+        - Offer treats from your hand, then progress to gentle handling.
+        - Use tunnels, wheels, and toys to keep them active and happy.
+
+        General Training Tips for All Pets:
+        - Consistency and patience are crucial.
+        - Avoid shouting or physical punishment — use rewards.
+        - Respect your pet's space and mood.
+
+        Location:
+        Address: 123 Pet Lane, Barktown, CA 90210, USA
+        Phone: +1 800-555-PAWS
+        Email: info@pettrainingbuddy.com
+        Opening Hours:
+        Monday to Friday: 9:00 AM to 6:00 PM
+        Saturday: 10:00 AM to 4:00 PM
+        Sunday: Closed
+
+        Tone Instructions:
+        Conciseness: Keep replies under 3 sentences where possible.
+        Formality: Friendly and professional tone. Avoid harsh words.
+        Clarity: Use plain English. Break down complex behaviour tips.
+        Consistency: All replies should be helpful and aligned with positive reinforcement methods.
+        Example: "Of course! You can begin puppy training at 8 weeks with gentle commands like 'sit' and 'stay.' Let us know if you'd like a guide!
+        `;
+
+        const API_KEY = "AIzaSyCvBXsrHxkdiPGvsq9FZw9o3YsRspzHWSE";
+        const genAI = new GoogleGenerativeAI(API_KEY);
+        const model = genAI.getGenerativeModel({ 
+            model: "gemini-1.5-flash",
+            systemInstruction: businessInfo
+        });
+
+        let messages = {
+            history: [],
+        }
+
+        // Initialize Web Speech API
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+
+        let isRecording = false;
+        const voiceButton = document.getElementById('voiceButton');
+        const imageInput = document.getElementById('imageInput');
+
+        // Voice Recognition
+        voiceButton.addEventListener('click', () => {
+            if (!isRecording) {
+                startRecording();
+            } else {
+                stopRecording();
+            }
+        });
+
+        function startRecording() {
+            try {
+                recognition.start();
+                isRecording = true;
+                voiceButton.classList.add('recording');
+            } catch (error) {
+                console.error('Error starting voice recognition:', error);
+            }
+        }
+
+        function stopRecording() {
+            recognition.stop();
+            isRecording = false;
+            voiceButton.classList.remove('recording');
+        }
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            document.getElementById('chatInput').value = transcript;
+            stopRecording();
+            sendMessage();
+        };
+
+        recognition.onerror = (event) => {
+            console.error('Voice recognition error:', event.error);
+            stopRecording();
+        };
+
+        // Image Recognition
+        imageInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                try {
+                    // Display image in chat
+                    const reader = new FileReader();
+                    reader.onload = async (e) => {
+                        const imageData = e.target.result;
+                        document.querySelector(".chat").insertAdjacentHTML("beforeend", `
+                            <div class="user">
+                                <img src="${imageData}" class="image-message" alt="Uploaded image">
+                            </div>
+                        `);
+
+                        document.querySelector(".chat").insertAdjacentHTML("beforeend", `
+                            <div class="loader"></div>
+                        `);
+
+                        try {
+                            // Create a chat that can process images
+                            const imageChat = model.startChat({
+                                history: messages.history,
+                                generationConfig: {
+                                    maxOutputTokens: 100,
+                                }
+                            });
+
+                            // Convert image to base64
+                            const base64Image = imageData.split(',')[1];
+                            
+                            const result = await imageChat.sendMessageStream([
+                                "Analyze this pet image and provide relevant training advice or observations.",
+                                {
+                                    inlineData: {
+                                        mimeType: "image/jpeg",
+                                        data: base64Image
+                                    }
+                                }
+                            ]);
+
+                            document.querySelector(".chat").insertAdjacentHTML("beforeend", `
+                                <div class="model">
+                                    <p></p>
+                                </div>
+                            `);
+
+                            let modelMessages = '';
+                            for await (const chunk of result.stream) {
+                                const chunkText = chunk.text();
+                                modelMessages = document.querySelectorAll(".chat div.model");
+                                modelMessages[modelMessages.length - 1].querySelector("p").insertAdjacentHTML("beforeend", chunkText);
+                            }
+
+                            // Update chat history
+                            messages.history.push({
+                                role: "user",
+                                parts: [{ text: "Analyzing uploaded pet image" }],
+                            });
+
+                            messages.history.push({
+                                role: "model",
+                                parts: [{ text: modelMessages[modelMessages.length - 1].querySelector("p").innerHTML }],
+                            });
+
+                        } catch (error) {
+                            console.error('Error processing image:', error);
+                            document.querySelector(".chat").insertAdjacentHTML("beforeend", `
+                                <div class="error">
+                                    <p>Sorry, I couldn't analyze the image. Please try again.</p>
+                                </div>
+                            `);
+                        }
+
+                        document.querySelector(".chat .loader")?.remove();
+                        chatWindow.scrollTop = chatWindow.scrollHeight;
+                    };
+                    reader.readAsDataURL(file);
+                } catch (error) {
+                    console.error('Error reading image file:', error);
+                }
+            }
+        });
+
+        async function sendMessage() {
+            const userMessage = document.getElementById('chatInput').value;
+            
+            if (userMessage.length) {
+                try {
+                    document.getElementById('chatInput').value = "";
+                    document.querySelector(".chat").insertAdjacentHTML("beforeend",`
+                        <div class="user">
+                            <p>${userMessage}</p>
+                        </div>
+                    `);
+
+                    document.querySelector(".chat").insertAdjacentHTML("beforeend",`
+                        <div class="loader"></div>
+                    `);
+
+                    const chat = model.startChat(messages);
+
+                    let result = await chat.sendMessageStream(userMessage);
+                    
+                    document.querySelector(".chat").insertAdjacentHTML("beforeend",`
+                        <div class="model">
+                            <p></p>
+                        </div>
+                    `);
+                    
+                    let modelMessages = '';
+
+                    for await (const chunk of result.stream) {
+                      const chunkText = chunk.text();
+                      modelMessages = document.querySelectorAll(".chat div.model");
+                      modelMessages[modelMessages.length - 1].querySelector("p").insertAdjacentHTML("beforeend",`
+                        ${chunkText}
+                    `);
+                    }
+
+                    messages.history.push({
+                        role: "user",
+                        parts: [{ text: userMessage }],
+                    });
+
+                    messages.history.push({
+                        role: "model",
+                        parts: [{ text: modelMessages[modelMessages.length - 1].querySelector("p").innerHTML }],
+                    });
+
+                } catch (error) {
+                    document.querySelector(".chat").insertAdjacentHTML("beforeend",`
+                        <div class="error">
+                            <p>The message could not be sent. Please try again.</p>
+                        </div>
+                    `);
+                    console.error(error);
+                }
+
+                document.querySelector(".chat .loader")?.remove();
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+        }
+
+        document.getElementById('sendMessage').addEventListener('click', sendMessage);
+        
+        document.getElementById('chatInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        document.getElementById('clearChat').addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear all chat messages?')) {
+                // Clear the chat messages from the UI
+                const chatContainer = document.querySelector(".chat");
+                // Keep only the first model message (welcome message)
+                const welcomeMessage = chatContainer.querySelector(".model");
+                chatContainer.innerHTML = '';
+                chatContainer.appendChild(welcomeMessage);
+                
+                // Reset the chat history
+                messages.history = [];
+                
+                // Scroll to top
+                chatContainer.scrollTop = 0;
+            }
+        });
+
+        // Add click handlers for suggested questions
+        document.querySelectorAll('.suggested-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const question = button.getAttribute('data-question');
+                document.getElementById('chatInput').value = question;
+                sendMessage();
+            });
+        });
+    </script>
+</body>
+</html> 
